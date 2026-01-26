@@ -35,6 +35,13 @@ class SideNav extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <style>
+        @font-face {
+          font-family: 'Afacad';
+          src: url('../assets/Afacad-VariableFont_wght.ttf') format('truetype');
+          font-weight: 100 900;
+          font-style: normal;
+        }
+
         :host {
           display: block;
           width: 100vw;
@@ -77,7 +84,9 @@ class SideNav extends HTMLElement {
         }
 
         .nav-link {
-          font: var(--font_0);
+          font-family: 'Afacad', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
           margin: 0;
           letter-spacing: 0.1em;
           text-decoration: none;
@@ -85,6 +94,41 @@ class SideNav extends HTMLElement {
           cursor: pointer;
           transition: opacity 0.3s ease;
           opacity: 0.35;
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) {
+          .nav-link {
+            font-size: 16px;
+          }
+        }
+
+        /* Small Desktop */
+        @media (min-width: 1024px) {
+          .nav-link {
+            font-size: 17px;
+          }
+        }
+
+        /* Desktop - 1440px as specified */
+        @media (min-width: 1440px) {
+          .nav-link {
+            font-size: 18px;
+          }
+        }
+
+        /* Large Desktop */
+        @media (min-width: 1920px) {
+          .nav-link {
+            font-size: 20px;
+          }
+        }
+
+        /* Extra Large Desktop */
+        @media (min-width: 2560px) {
+          .nav-link {
+            font-size: 22px;
+          }
         }
 
         .nav-link.active {
