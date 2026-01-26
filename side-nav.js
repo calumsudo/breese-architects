@@ -13,7 +13,14 @@ class SideNav extends HTMLElement {
   }
 
   attributeChangedCallback() {
-    this.render();
+    this.updateActiveLink();
+  }
+
+  updateActiveLink() {
+    const active = this.getAttribute('active') || 'home';
+    this.shadowRoot.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.toggle('active', link.dataset.anchor === active);
+    });
   }
 
   render() {
@@ -42,6 +49,7 @@ class SideNav extends HTMLElement {
           height: 100%;
           padding: 20px;
           box-sizing: border-box;
+          position: relative;
         }
 
         .logo {
@@ -49,20 +57,22 @@ class SideNav extends HTMLElement {
           width: 100%;
           height: auto;
           flex-shrink: 0;
+          cursor: pointer;
         }
 
         .nav {
-          flex: 1;
+          position: absolute;
+          top: 50%;
+          left: 20px;
+          right: 20px;
+          transform: translateY(-50%);
           display: flex;
           flex-direction: column;
-          justify-content: center;
           gap: 2rem;
         }
 
         .nav-link {
-          font-family: inherit;
-          font-size: 18px;
-          font-weight: normal;
+          font: var(--font_0);
           margin: 0;
           letter-spacing: 0.1em;
           text-decoration: none;
@@ -102,11 +112,20 @@ class SideNav extends HTMLElement {
       </div>
     `;
 
+    // Logo click - scroll to home
+    this.shadowRoot.querySelector('.logo').addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('navclick', {
+        detail: { anchor: 'home' },
+        bubbles: true,
+        composed: true
+      }));
+    });
+
+    // Nav link clicks
     this.shadowRoot.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
-        const anchor = link.dataset.anchor;
         this.dispatchEvent(new CustomEvent('navclick', {
-          detail: { anchor },
+          detail: { anchor: link.dataset.anchor },
           bubbles: true,
           composed: true
         }));
