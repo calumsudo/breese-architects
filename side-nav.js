@@ -135,6 +135,7 @@ class SideNav extends HTMLElement {
           cursor: pointer;
           transition: opacity 0.3s ease;
           opacity: 0.35;
+          text-align: center;
         }
 
         /* Tablet */
