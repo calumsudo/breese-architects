@@ -37,7 +37,7 @@ class SideNav extends HTMLElement {
       <style>
         @font-face {
           font-family: 'Afacad';
-          src: url('../assets/Afacad-VariableFont_wght.ttf') format('truetype');
+          src: url('https://calumsudo.github.io/breese-architects/assets/Afacad-VariableFont_wght.ttf') format('truetype');
           font-weight: 100 900;
           font-style: normal;
         }
