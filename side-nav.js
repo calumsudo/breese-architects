@@ -61,7 +61,7 @@ class SideNav extends HTMLElement {
 
         .nav-link {
           font-family: inherit;
-          font-size: clamp(0.75rem, 1.2vw, 1.1rem);
+          font-size: 18px;
           letter-spacing: 0.1em;
           text-decoration: none;
           color: #1a2e35;
