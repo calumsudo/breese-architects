@@ -37,19 +37,24 @@ class SideNav extends HTMLElement {
       <style>
         :host {
           display: block;
-          width: calc(100vw / 12);
+          width: 100vw;
           height: 100vh;
           position: relative;
           box-sizing: border-box;
+          pointer-events: none;
         }
 
-        .container {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
+        .nav-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: calc(100vw / 12);
+          height: 100vh;
           padding: 20px;
           box-sizing: border-box;
-          position: relative;
+          display: flex;
+          flex-direction: column;
+          pointer-events: auto;
         }
 
         .logo {
@@ -91,7 +96,7 @@ class SideNav extends HTMLElement {
         }
       </style>
 
-      <div class="container">
+      <div class="nav-container">
         <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="693.44 423.29 101.95 101.95">
           <rect x="694.5" y="423.29" width="99.83" height="101.95" fill="#14394f" stroke="#fff" stroke-width="0.29" stroke-miterlimit="10"/>
           <path fill="#8fc3e1" stroke="#8ccbeb" stroke-width="0.43" stroke-miterlimit="10" d="M731.67,486.26c-2.13,2.84-3.04,7.57.36,11.36,1.11,1.23,2.55,2.4,5.59,2.37h52.68c-.87-.56-1.66-1.1-2.66-1.85-1.53-1.15-3.21-2.46-4.32-3.42-9.17,0-16.91-.3-26.14-.42-4.35-.06-8.69,0-13.02,0,0,0-4.37,0-4.99-4.88-.22-1.71.76-5.12,6.42-6.5h26.87s-2.17-2.95-3.79-5.88h-27.61s-8.59,0-8.59,0c1.01,2,2.51,3.89,4.42,5.9,0,0-3.07.41-5.24,3.32Z"/>
