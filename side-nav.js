@@ -68,8 +68,42 @@ class SideNav extends HTMLElement {
           display: block;
           width: 100%;
           height: auto;
+          max-width: 100%;
+          max-height: 60px;
           flex-shrink: 0;
           cursor: pointer;
+          object-fit: contain;
+        }
+
+        /* Adjust logo size for different screens */
+        @media (min-width: 768px) {
+          .logo {
+            max-height: 70px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .logo {
+            max-height: 80px;
+          }
+        }
+
+        @media (min-width: 1440px) {
+          .logo {
+            max-height: 90px;
+          }
+        }
+
+        @media (min-width: 1920px) {
+          .logo {
+            max-height: 100px;
+          }
+        }
+
+        @media (min-width: 2560px) {
+          .logo {
+            max-height: 110px;
+          }
         }
 
         .nav {
