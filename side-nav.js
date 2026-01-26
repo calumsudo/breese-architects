@@ -116,9 +116,8 @@ class SideNav extends HTMLElement {
         .nav {
           position: absolute;
           top: 50%;
-          left: calc(100vw / 60);
-          right: calc(100vw / 60);
-          transform: translateY(-50%);
+          left: 50%;
+          transform: translate(-50%, -50%);
           display: flex;
           flex-direction: column;
           gap: 2rem;
