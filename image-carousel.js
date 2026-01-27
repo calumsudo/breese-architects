@@ -103,20 +103,25 @@ class ImageCarousel extends HTMLElement {
       /* Side images: Flex 1, forced Portrait Crop */
       .side-image {
         flex: 1; 
+        position: relative;
+        /* No height set here, it stretches to match container (defined by center image) */
       }
 
       .side-image img {
+        position: absolute; /* Take out of flow so it doesn't push height */
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         object-fit: cover; /* Forces crop to fill the tall slot */
         filter: grayscale(100%);
         opacity: 0.8;
-        display: block;
       }
 
       /* Center image: Flex 2, Original Crop */
       .center-image {
         flex: 2; /* Wider slot for main image */
+        position: relative;
       }
 
       .center-image img {
@@ -124,7 +129,7 @@ class ImageCarousel extends HTMLElement {
         height: auto; /* Maintains original aspect ratio */
         filter: grayscale(0%);
         opacity: 1;
-        display: block;
+        display: block; /* Removes bottom space */
       }
 
       /* Controls */
@@ -134,6 +139,7 @@ class ImageCarousel extends HTMLElement {
         justify-content: space-between;
         width: 100%;
         height: 30px;
+        margin-top: 4px; /* Slight separation */
       }
 
       .arrow {
