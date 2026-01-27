@@ -85,8 +85,9 @@ class ImageCarousel extends HTMLElement {
       .images-wrapper {
         display: flex;
         justify-content: center;
-        align-items: stretch; /* Ensures all items stretch to the tallest height (defined by center) */
+        align-items: stretch;
         width: 100%;
+        height: 500px; /* Fixed height to prevent jumping */
         gap: 4px;
         margin-bottom: 8px;
         overflow: hidden;
@@ -98,38 +99,38 @@ class ImageCarousel extends HTMLElement {
         align-items: center;
         position: relative;
         overflow: hidden;
+        transition: all 0.3s ease;
       }
 
-      /* Side images: Flex 1, forced Portrait Crop */
+      /* Side images: Fill remaining space, Portrait Crop */
       .side-image {
         flex: 1; 
-        position: relative;
-        /* No height set here, it stretches to match container (defined by center image) */
+        min-width: 0; /* Allows flex shrink if needed */
       }
 
       .side-image img {
-        position: absolute; /* Take out of flow so it doesn't push height */
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Forces crop to fill the tall slot */
+        object-fit: cover; /* Forces fill */
         filter: grayscale(100%);
         opacity: 0.8;
+        display: block;
       }
 
-      /* Center image: Flex 2, Original Crop */
+      /* Center image: Sized by content (height) */
       .center-image {
-        flex: 2; /* Wider slot for main image */
-        position: relative;
+        flex: 0 0 auto; /* Do not grow, just fit content */
+        width: auto;
+        max-width: 70%; /* Ensure side images are always visible */
       }
 
       .center-image img {
-        width: 100%;
-        height: auto; /* Maintains original aspect ratio */
+        height: 100%; /* Match container fixed height */
+        width: auto; /* Width adjusts to maintain aspect ratio */
+        object-fit: contain; /* Ensure full image is seen (Original Crop) */
         filter: grayscale(0%);
         opacity: 1;
-        display: block; /* Removes bottom space */
+        display: block;
       }
 
       /* Controls */
