@@ -85,40 +85,46 @@ class ImageCarousel extends HTMLElement {
       .images-wrapper {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: stretch; /* Ensures all items stretch to the tallest height (defined by center) */
         width: 100%;
-        gap: 4px; /* Exact 4px space between images */
-        margin-bottom: 8px; /* Reduced spacing */
-        overflow: hidden; /* Hide anything outside */
+        gap: 4px;
+        margin-bottom: 8px;
+        overflow: hidden;
       }
 
       .image-slot {
-        flex: 1;
-        height: 400px; /* Fixed height for consistency */
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: all 0.3s ease;
         position: relative;
+        overflow: hidden;
       }
 
-      .image-slot img {
+      /* Side images: Flex 1, forced Portrait Crop */
+      .side-image {
+        flex: 1; 
+      }
+
+      .side-image img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        transition: filter 0.3s ease;
-      }
-
-      /* Side images: Black and White */
-      .side-image img {
+        object-fit: cover; /* Forces crop to fill the tall slot */
         filter: grayscale(100%);
         opacity: 0.8;
+        display: block;
       }
 
-      /* Center image: Color */
+      /* Center image: Flex 2, Original Crop */
+      .center-image {
+        flex: 2; /* Wider slot for main image */
+      }
+
       .center-image img {
+        width: 100%;
+        height: auto; /* Maintains original aspect ratio */
         filter: grayscale(0%);
         opacity: 1;
+        display: block;
       }
 
       /* Controls */
@@ -127,7 +133,6 @@ class ImageCarousel extends HTMLElement {
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        /* max-width removed to align with images */
         height: 30px;
       }
 
@@ -153,14 +158,14 @@ class ImageCarousel extends HTMLElement {
 
       .scrollbar-track {
         flex-grow: 1;
-        margin: 0 4px; /* Reduced margin to bring arrows really close */
+        margin: 0 4px;
         height: 10px;
         background-color: var(--track-color);
         border: 1px solid #fff;
         border-radius: 5px;
         position: relative;
         cursor: pointer;
-        box-sizing: border-box; /* Fixes overflow */
+        box-sizing: border-box;
       }
 
       .scrollbar-thumb {
@@ -171,7 +176,7 @@ class ImageCarousel extends HTMLElement {
         position: absolute;
         top: 0;
         transition: left 0.3s ease;
-        box-sizing: border-box; /* Fixes overflow */
+        box-sizing: border-box;
       }
     `;
 
