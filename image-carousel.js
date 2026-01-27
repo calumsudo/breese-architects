@@ -77,6 +77,9 @@ class ImageCarousel extends HTMLElement {
         align-items: center;
         width: 100%;
         position: relative;
+        padding-left: calc(100vw / 12);
+        padding-right: calc(100vw / 12);
+        box-sizing: border-box;
       }
 
       .images-wrapper {
@@ -123,8 +126,8 @@ class ImageCarousel extends HTMLElement {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 90%;
-        max-width: 1200px;
+        width: 100%;
+        /* max-width removed to align with images */
         height: 30px;
       }
 
