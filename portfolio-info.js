@@ -39,10 +39,17 @@ class PortfolioInfo extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <style>
+        @font-face {
+          font-family: 'Afacad';
+          src: url('https://calumsudo.github.io/breese-architects/assets/Afacad-VariableFont_wght.ttf') format('truetype');
+          font-weight: 100 900;
+          font-style: normal;
+        }
+
         :host {
           display: block;
           width: 100%;
-          font-family: var(--font_0, 'Arial', sans-serif);
+          font-family: 'Afacad', sans-serif;
           color: #1a2e35;
           box-sizing: border-box;
         }
@@ -101,16 +108,17 @@ class PortfolioInfo extends HTMLElement {
            border-right: 1px solid rgba(255,255,255,0.2); 
         }
 
-        /* --- Typography --- */
+        /* --- Typography Defaults (Mobile First / Default Fallback at small sizes) --- */
+        /* Using ratio ~0.77 from base 1440px */
 
         .pre-title {
-          font-size: 30px;
+          font-size: 23px;
           margin-bottom: 8px;
           line-height: 1.2;
         }
 
         .title {
-          font-size: 64px;
+          font-size: 49px;
           font-weight: normal;
           margin: 0;
           line-height: 1;
@@ -118,7 +126,7 @@ class PortfolioInfo extends HTMLElement {
         }
 
         .description {
-          font-size: 24px;
+          font-size: 19px;
           line-height: 1.4;
           margin: 0;
           text-transform: uppercase;
@@ -126,38 +134,87 @@ class PortfolioInfo extends HTMLElement {
         }
 
         .stat-number {
-          font-size: 64px; /* Image says 64pt/120? Using 64px-120px logic. Top-left shows 64pt for 2026/2050. Bottom right shows 120 for 120? Let's stick to 64px for standard large numbers unless '120' is specifically requested larger. 
-                             Wait, image shows '120' is huge. The 64pt might be for the title. 
-                             Let's make stats large. */
+          font-size: 49px; 
           font-weight: normal;
           line-height: 1;
           margin-bottom: 12px;
         }
         
-        /* If specific stat is very large like the '120' in image */
         .stat-number.large {
-           font-size: 80px;
+           font-size: 60px;
         }
 
         .stat-label {
-          font-size: 15px;
+          font-size: 12px;
           line-height: 1.4;
           text-transform: uppercase;
           letter-spacing: 0.05em;
           max-width: 200px;
         }
 
-        /* --- Responsive --- */
+        /* --- Breakpoints to match side-nav.js --- */
+
+        /* Tablet (768px) - Ratio 0.88 */
+        @media (min-width: 768px) {
+           .pre-title { font-size: 26px; }
+           .title { font-size: 56px; }
+           .description { font-size: 21px; }
+           .stat-number { font-size: 56px; }
+           .stat-number.large { font-size: 70px; }
+           .stat-label { font-size: 13px; }
+        }
+
+        /* Small Desktop (1024px) - Ratio 0.94 */
+        @media (min-width: 1024px) {
+           .pre-title { font-size: 28px; }
+           .title { font-size: 60px; }
+           .description { font-size: 22.5px; }
+           .stat-number { font-size: 60px; }
+           .stat-number.large { font-size: 75px; }
+           .stat-label { font-size: 14px; }
+        }
+
+        /* Desktop Base (1440px) - Ratio 1.0 (The Design Spec) */
+        @media (min-width: 1440px) {
+           .pre-title { font-size: 30px; }
+           .title { font-size: 64px; }
+           .description { font-size: 24px; }
+           .stat-number { font-size: 64px; }
+           .stat-number.large { font-size: 80px; }
+           .stat-label { font-size: 15px; }
+        }
+        
+        /* Large Desktop (1920px) - Ratio 1.11 */
+        @media (min-width: 1920px) {
+           .pre-title { font-size: 33px; }
+           .title { font-size: 71px; }
+           .description { font-size: 26.5px; }
+           .stat-number { font-size: 71px; }
+           .stat-number.large { font-size: 89px; }
+           .stat-label { font-size: 16.5px; }
+        }
+
+        /* Extra Large (2560px) - Ratio 1.22 */
+        @media (min-width: 2560px) {
+           .pre-title { font-size: 36.5px; }
+           .title { font-size: 78px; }
+           .description { font-size: 29px; }
+           .stat-number { font-size: 78px; }
+           .stat-number.large { font-size: 98px; }
+           .stat-label { font-size: 18px; }
+        }
+
+        /* --- Layout Responsiveness (Mobile layout changes) --- */
         
         @media (max-width: 1024px) {
-           /* Widen the main container */
+           /* Widen the main container on smaller screens so content isn't too squished */
            .content-wrapper {
              grid-column: 2 / 12;
            }
         }
 
         @media (max-width: 768px) {
-          /* Stack the quadrants */
+          /* Stack the quadrants on mobile */
           .content-wrapper {
             grid-template-columns: 1fr;
             grid-column: 2 / 12;
