@@ -122,14 +122,13 @@ class SideNav extends HTMLElement {
           display: flex;
           flex-direction: column;
           gap: 2rem;
-          align-items: center;
         }
 
         .nav-link {
           font-family: 'Afacad', sans-serif;
           font-size: 14px;
           font-weight: 400;
-          margin: 0;
+          margin: 0 auto;
           letter-spacing: 0.1em;
           text-decoration: none;
           color: #1a2e35;
