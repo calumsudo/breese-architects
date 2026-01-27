@@ -122,19 +122,22 @@ class SideNav extends HTMLElement {
           display: flex;
           flex-direction: column;
           gap: 2rem;
+          text-align: center;
         }
 
         .nav-link {
           font-family: 'Afacad', sans-serif;
           font-size: 14px;
           font-weight: 400;
-          margin: 0 auto;
+          margin: 0;
           letter-spacing: 0.1em;
           text-decoration: none;
           color: #1a2e35;
           cursor: pointer;
           transition: opacity 0.3s ease;
           opacity: 0.35;
+          display: inline-block;
+          text-align: left;
         }
 
         /* Tablet */
