@@ -9,7 +9,15 @@ class PortfolioInfo extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['heading', 'subheading', 'text', 'button-text', 'button-link'];
+    return [
+      'pre-title', 
+      'title', 
+      'description', 
+      'stat-1-number', 
+      'stat-1-label', 
+      'stat-2-number', 
+      'stat-2-label'
+    ];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -19,24 +27,24 @@ class PortfolioInfo extends HTMLElement {
   }
 
   render() {
-    const heading = this.getAttribute('heading') || '';
-    const subheading = this.getAttribute('subheading') || '';
-    const text = this.getAttribute('text') || '';
-    const buttonText = this.getAttribute('button-text') || '';
-    const buttonLink = this.getAttribute('button-link') || '#';
-
-    // CSS Grid: 12 columns.
-    // Margins are 1/12th on left (col 1) and right (col 12).
-    // Content lives in center 6 columns: Cols 4, 5, 6, 7, 8, 9.
-    // Grid lines: |1|2|3|4 (start)|5|6|7|8|9|10 (end)|11|12|
+    const preTitle = this.getAttribute('pre-title') || '';
+    const title = this.getAttribute('title') || '';
+    const description = this.getAttribute('description') || '';
     
+    const stat1Num = this.getAttribute('stat-1-number') || '';
+    const stat1Label = this.getAttribute('stat-1-label') || '';
+    
+    const stat2Num = this.getAttribute('stat-2-number') || '';
+    const stat2Label = this.getAttribute('stat-2-label') || '';
+
     this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: block;
           width: 100%;
-          font-family: var(--font_0, 'Arial', sans-serif); /* Fallback font */
+          font-family: var(--font_0, 'Arial', sans-serif);
           color: #1a2e35;
+          box-sizing: border-box;
         }
 
         .grid-container {
@@ -48,87 +56,136 @@ class PortfolioInfo extends HTMLElement {
           padding-bottom: 60px;
         }
 
+        /* 
+          Main Content Wrapper: spans grid cols 4-9 (6 columns total).
+          Inside this wrapper, we create a 2x2 grid.
+        */
         .content-wrapper {
-          grid-column: 4 / 10; /* spans columns 4, 5, 6, 7, 8, 9 */
+          grid-column: 4 / 10;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto auto;
+        }
+
+        /* --- Quadrants --- */
+        
+        .quad {
+          padding: 24px;
+          box-sizing: border-box;
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          justify-content: center;
         }
 
-        h2 {
-          font-size: 48px;
-          font-weight: normal;
-          margin: 0;
-          line-height: 1.2;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
+        /* Top Left */
+        .q1 {
+          /* No borders, just white bg relative to container */
+          align-items: flex-start;
+          padding-left: 0;
         }
 
-        h3 {
-          font-size: 18px;
-          font-weight: normal;
-          margin: 0;
-          opacity: 0.7;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
+        /* Top Right */
+        .q2 {
+          border-left: 1px solid #1a2e35; /* Vertical Divider */
+          padding-right: 0;
+        }
+
+        /* Bottom Row */
+        .q3, .q4 {
+          background-color: #14394f; /* Dark Blue from logo/image */
+          color: #ffffff;
+          min-height: 180px; /* Force some height for visual weight */
         }
         
-        .divider {
-           width: 50px;
-           height: 1px;
-           background-color: #1a2e35;
-           margin: 10px 0;
+        .q3 {
+           border-right: 1px solid rgba(255,255,255,0.2); 
         }
 
-        p {
-          font-size: 18px;
-          line-height: 1.6;
+        /* --- Typography --- */
+
+        .pre-title {
+          font-size: 30px;
+          margin-bottom: 8px;
+          line-height: 1.2;
+        }
+
+        .title {
+          font-size: 64px;
+          font-weight: normal;
           margin: 0;
+          line-height: 1;
+          letter-spacing: 0.02em;
         }
 
-        .btn {
-          display: inline-block;
-          margin-top: 16px;
-          text-decoration: none;
-          color: #1a2e35;
-          border: 1px solid #1a2e35;
-          padding: 12px 24px;
+        .description {
+          font-size: 24px;
+          line-height: 1.4;
+          margin: 0;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
-          font-size: 14px;
-          transition: all 0.3s ease;
-          width: fit-content;
+          letter-spacing: 0.05em;
         }
 
-        .btn:hover {
-          background-color: #1a2e35;
-          color: #ffffff;
+        .stat-number {
+          font-size: 64px; /* Image says 64pt/120? Using 64px-120px logic. Top-left shows 64pt for 2026/2050. Bottom right shows 120 for 120? Let's stick to 64px for standard large numbers unless '120' is specifically requested larger. 
+                             Wait, image shows '120' is huge. The 64pt might be for the title. 
+                             Let's make stats large. */
+          font-weight: normal;
+          line-height: 1;
+          margin-bottom: 12px;
+        }
+        
+        /* If specific stat is very large like the '120' in image */
+        .stat-number.large {
+           font-size: 80px;
         }
 
-        /* Responsive Design */
+        .stat-label {
+          font-size: 15px;
+          line-height: 1.4;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          max-width: 200px;
+        }
+
+        /* --- Responsive --- */
+        
         @media (max-width: 1024px) {
-            /* Tablet: maybe widen grid to 2-12 or 3-11? 
-               Lets try sticking to design request but maybe a bit looser if needed.
-               For now complying with strict request unless small screen.
-            */
+           /* Widen the main container */
+           .content-wrapper {
+             grid-column: 2 / 12;
+           }
         }
 
         @media (max-width: 768px) {
-          /* Mobile: Full width with padding matching 1/12 roughly or just standard padding */
+          /* Stack the quadrants */
           .content-wrapper {
+            grid-template-columns: 1fr;
             grid-column: 2 / 12;
           }
           
-          h2 {
-            font-size: 24px;
+          .q2 {
+            border-left: none;
+            border-top: 1px solid #1a2e35;
+            padding-left: 0;
+            padding-top: 24px;
+          }
+          
+          .q3, .q4 {
+             border-right: none;
+             border-bottom: 1px solid rgba(255,255,255,0.2);
+          }
+          .q4 {
+            border-bottom: none;
           }
         }
         
         @media (max-width: 480px) {
            .content-wrapper {
              grid-column: 1 / 13;
-             padding-left: 20px;
-             padding-right: 20px;
+             padding: 0 20px;
+           }
+           .q1, .q2, .q3, .q4 {
+             padding: 24px 10px;
            }
         }
 
@@ -136,11 +193,30 @@ class PortfolioInfo extends HTMLElement {
 
       <div class="grid-container">
         <div class="content-wrapper">
-          ${subheading ? `<h3>${subheading}</h3>` : ''}
-          ${heading ? `<h2>${heading}</h2>` : ''}
-          ${subheading || heading ? `<div class="divider"></div>` : ''}
-          ${text ? `<p>${text}</p>` : ''}
-          ${buttonText ? `<a href="${buttonLink}" class="btn" target="_blank">${buttonText}</a>` : ''}
+          
+          <!-- Q1: Title Section -->
+          <div class="quad q1">
+            <div class="pre-title">${preTitle}</div>
+            <div class="title">${title}</div>
+          </div>
+
+          <!-- Q2: Description Section -->
+          <div class="quad q2">
+            <div class="description">${description}</div>
+          </div>
+
+          <!-- Q3: Stat 1 -->
+          <div class="quad q3">
+            <div class="stat-number">${stat1Num}</div>
+            <div class="stat-label">${stat1Label}</div>
+          </div>
+
+          <!-- Q4: Stat 2 -->
+          <div class="quad q4">
+            <div class="stat-number large">${stat2Num}</div>
+            <div class="stat-label">${stat2Label}</div>
+          </div>
+
         </div>
       </div>
     `;
