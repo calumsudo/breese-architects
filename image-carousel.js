@@ -2,8 +2,9 @@ class ImageCarousel extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.currentIndex = 1; // Start at the second image (index 1)
+    this.currentIndex = 1;
     this._images = [];
+    this._preloaded = false;
   }
 
   static get observedAttributes() {
@@ -14,6 +15,7 @@ class ImageCarousel extends HTMLElement {
     if (name === 'images' && oldValue !== newValue) {
       try {
         this._images = JSON.parse(newValue);
+        this.preloadImages();
         this.render();
       } catch (e) {
         console.error('Invalid JSON for images attribute', e);
@@ -23,8 +25,19 @@ class ImageCarousel extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.addEventListeners();
   }
+
+
+  preloadImages() {
+    if (this._preloaded) return;
+    this._preloaded = true;
+    
+    this._images.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }
+
 
   addEventListeners() {
     // Event delegation or binding can be done here if needed
