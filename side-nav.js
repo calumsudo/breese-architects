@@ -42,26 +42,36 @@ class SideNav extends HTMLElement {
           font-style: normal;
         }
 
+        /* 
+         * KEY FIX: The :host no longer requires specific dimensions.
+         * Wix can size/pin this element however it wants - we don't care.
+         * The actual nav uses position:fixed to anchor to the viewport.
+         */
         :host {
           display: block;
-          width: 100vw;
-          height: 100vh;
-          position: relative;
-          box-sizing: border-box;
-          pointer-events: none;
+          /* Minimal footprint - the actual nav is fixed-positioned */
+          width: 0;
+          height: 0;
+          overflow: visible;
         }
 
+        /*
+         * The nav-container is now position:fixed, anchoring directly to 
+         * the viewport. This bypasses any Wix container constraints.
+         */
         .nav-container {
-          position: absolute;
+          position: fixed;
           top: 0;
           left: 0;
-          width: 100%;
+          width: calc(100vw / 12);
           height: 100vh;
+          z-index: 1000;
           pointer-events: none;
+          box-sizing: border-box;
         }
 
         .nav-inner {
-          width: calc(100vw / 12);
+          width: 100%;
           height: 100%;
           padding: calc(100vw / 60);
           box-sizing: border-box;
@@ -76,41 +86,28 @@ class SideNav extends HTMLElement {
           width: 100%;
           height: auto;
           max-width: 100%;
-          max-height: 60px;
           flex-shrink: 0;
           cursor: pointer;
           object-fit: contain;
         }
 
-        /* Adjust logo size for different screens */
-        @media (min-width: 768px) {
-          .logo {
-            max-height: 70px;
-          }
+        /* 
+         * Responsive logo sizing using clamp() for smoother scaling.
+         * Fallback breakpoints included for older browsers.
+         */
+        .logo {
+          /* Smooth scaling from 45px to 110px based on viewport */
+          max-height: clamp(45px, 5vw, 110px);
         }
 
-        @media (min-width: 1024px) {
-          .logo {
-            max-height: 80px;
-          }
-        }
-
-        @media (min-width: 1440px) {
-          .logo {
-            max-height: 90px;
-          }
-        }
-
-        @media (min-width: 1920px) {
-          .logo {
-            max-height: 100px;
-          }
-        }
-
-        @media (min-width: 2560px) {
-          .logo {
-            max-height: 110px;
-          }
+        /* Fallback breakpoints for browsers without clamp() support */
+        @supports not (max-height: clamp(45px, 5vw, 110px)) {
+          .logo { max-height: 50px; }
+          @media (min-width: 768px) { .logo { max-height: 60px; } }
+          @media (min-width: 1024px) { .logo { max-height: 70px; } }
+          @media (min-width: 1440px) { .logo { max-height: 80px; } }
+          @media (min-width: 1920px) { .logo { max-height: 95px; } }
+          @media (min-width: 2560px) { .logo { max-height: 110px; } }
         }
 
         .nav {
@@ -121,13 +118,14 @@ class SideNav extends HTMLElement {
           transform: translateY(-50%);
           display: flex;
           flex-direction: column;
-          gap: 2rem;
-          text-align: center;
+          gap: clamp(1rem, 2vw, 2rem);
+          text-align: left;
         }
 
         .nav-link {
           font-family: 'Afacad', sans-serif;
-          font-size: 14px;
+          /* Smooth font scaling using clamp */
+          font-size: clamp(12px, 1.2vw, 22px);
           font-weight: 400;
           margin: 0;
           letter-spacing: 0.1em;
@@ -138,41 +136,18 @@ class SideNav extends HTMLElement {
           opacity: 0.35;
           display: inline-block;
           text-align: left;
+          /* Prevent text from wrapping and causing layout issues */
+          white-space: nowrap;
         }
 
-        /* Tablet */
-        @media (min-width: 768px) {
-          .nav-link {
-            font-size: 16px;
-          }
-        }
-
-        /* Small Desktop */
-        @media (min-width: 1024px) {
-          .nav-link {
-            font-size: 17px;
-          }
-        }
-
-        /* Desktop - 1440px as specified */
-        @media (min-width: 1440px) {
-          .nav-link {
-            font-size: 18px;
-          }
-        }
-
-        /* Large Desktop */
-        @media (min-width: 1920px) {
-          .nav-link {
-            font-size: 20px;
-          }
-        }
-
-        /* Extra Large Desktop */
-        @media (min-width: 2560px) {
-          .nav-link {
-            font-size: 22px;
-          }
+        /* Fallback breakpoints for browsers without clamp() support */
+        @supports not (font-size: clamp(12px, 1.2vw, 22px)) {
+          .nav-link { font-size: 12px; }
+          @media (min-width: 768px) { .nav-link { font-size: 14px; } }
+          @media (min-width: 1024px) { .nav-link { font-size: 16px; } }
+          @media (min-width: 1440px) { .nav-link { font-size: 18px; } }
+          @media (min-width: 1920px) { .nav-link { font-size: 20px; } }
+          @media (min-width: 2560px) { .nav-link { font-size: 22px; } }
         }
 
         .nav-link.active {
@@ -181,6 +156,16 @@ class SideNav extends HTMLElement {
 
         .nav-link:hover {
           opacity: 1;
+        }
+
+        /*
+         * Mobile breakpoint: Hide the nav on small screens.
+         * You may want to implement a hamburger menu instead.
+         */
+        @media (max-width: 767px) {
+          .nav-container {
+            display: none;
+          }
         }
       </style>
 
