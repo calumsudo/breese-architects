@@ -68,6 +68,8 @@ class SideNav extends HTMLElement {
           z-index: 1000;
           pointer-events: none;
           box-sizing: border-box;
+          /* Prevent any overflow into content area */
+          overflow: hidden;
         }
 
         .nav-inner {
@@ -114,30 +116,36 @@ class SideNav extends HTMLElement {
           position: absolute;
           top: 50%;
           left: calc(100vw / 60);
-          right: calc(100vw / 60);
+          right: 0;
           transform: translateY(-50%);
           display: flex;
           flex-direction: column;
-          gap: clamp(1rem, 2vw, 2rem);
+          gap: clamp(0.75rem, 1.5vw, 1.5rem);
           text-align: left;
+          /* Ensure nav stays within bounds */
+          max-width: calc((100vw / 12) - (100vw / 30));
+          overflow: hidden;
         }
 
         .nav-link {
           font-family: 'Afacad', sans-serif;
-          /* Smooth font scaling using clamp */
-          font-size: clamp(12px, 1.2vw, 22px);
+          /* Smaller font to fit within 1/12 column */
+          font-size: clamp(10px, 0.9vw, 16px);
           font-weight: 400;
           margin: 0;
-          letter-spacing: 0.1em;
+          /* Reduced letter-spacing to fit text */
+          letter-spacing: 0.05em;
           text-decoration: none;
           color: #1a2e35;
           cursor: pointer;
           transition: opacity 0.3s ease;
           opacity: 0.35;
-          display: inline-block;
+          display: block;
           text-align: left;
-          /* Prevent text from wrapping and causing layout issues */
+          /* Allow wrapping if needed, but shouldn't be necessary now */
           white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         /* Fallback breakpoints for browsers without clamp() support */
