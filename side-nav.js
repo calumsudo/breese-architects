@@ -130,7 +130,7 @@ class SideNav extends HTMLElement {
         .nav-link {
           font-family: 'Afacad', sans-serif;
           /* Smaller font to fit within 1/12 column */
-          font-size: clamp(10px, 0.9vw, 16px);
+          font-size: clamp(8px, 0.75vw, 14px);
           font-weight: 400;
           margin: 0;
           /* Reduced letter-spacing to fit text */
@@ -149,13 +149,13 @@ class SideNav extends HTMLElement {
         }
 
         /* Fallback breakpoints for browsers without clamp() support */
-        @supports not (font-size: clamp(12px, 1.2vw, 22px)) {
-          .nav-link { font-size: 12px; }
-          @media (min-width: 768px) { .nav-link { font-size: 14px; } }
-          @media (min-width: 1024px) { .nav-link { font-size: 16px; } }
-          @media (min-width: 1440px) { .nav-link { font-size: 18px; } }
-          @media (min-width: 1920px) { .nav-link { font-size: 20px; } }
-          @media (min-width: 2560px) { .nav-link { font-size: 22px; } }
+        @supports not (font-size: clamp(8px, 0.75vw, 14px)) {
+          .nav-link { font-size: 8px; }
+          @media (min-width: 768px) { .nav-link { font-size: 10px; } }
+          @media (min-width: 1024px) { .nav-link { font-size: 11px; } }
+          @media (min-width: 1440px) { .nav-link { font-size: 12px; } }
+          @media (min-width: 1920px) { .nav-link { font-size: 13px; } }
+          @media (min-width: 2560px) { .nav-link { font-size: 14px; } }
         }
 
         .nav-link.active {
