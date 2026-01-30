@@ -151,11 +151,11 @@ class SideNav extends HTMLElement {
         /* Fallback breakpoints for browsers without clamp() support */
         @supports not (font-size: clamp(8px, 0.75vw, 14px)) {
           .nav-link { font-size: 8px; }
-          @media (min-width: 768px) { .nav-link { font-size: 10px; } }
-          @media (min-width: 1024px) { .nav-link { font-size: 11px; } }
-          @media (min-width: 1440px) { .nav-link { font-size: 12px; } }
-          @media (min-width: 1920px) { .nav-link { font-size: 13px; } }
-          @media (min-width: 2560px) { .nav-link { font-size: 14px; } }
+          @media (min-width: 768px) { .nav-link { font-size: 14px; } }
+          @media (min-width: 1024px) { .nav-link { font-size: 15px; } }
+          @media (min-width: 1440px) { .nav-link { font-size: 16px; } }
+          @media (min-width: 1920px) { .nav-link { font-size: 17px; } }
+          @media (min-width: 2560px) { .nav-link { font-size: 18px; } }
         }
 
         .nav-link.active {
@@ -170,7 +170,7 @@ class SideNav extends HTMLElement {
          * Mobile breakpoint: Hide the nav on small screens.
          * You may want to implement a hamburger menu instead.
          */
-        @media (max-width: 767px) {
+        @media (max-width: 1200px) {
           .nav-container {
             display: none;
           }
