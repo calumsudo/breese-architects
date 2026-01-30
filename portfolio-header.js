@@ -63,7 +63,7 @@ class PortfolioHeader extends HTMLElement {
       <style>
         @font-face {
           font-family: 'Afacad';
-          src: url('https://raw.githubusercontent.com/calumsudo/breese-architects/main/assets/Afacad-VariableFont_wght.ttf') format('truetype');
+          src: url('https://cdn.jsdelivr.net/gh/calumsudo/breese-architects@main/assets/Afacad-VariableFont_wght.ttf') format('truetype');
           font-weight: 100 900;
           font-style: normal;
           font-display: swap;
@@ -72,7 +72,7 @@ class PortfolioHeader extends HTMLElement {
         :host {
           display: block;
           width: 100%;
-          font-family: 'Afacad', 'Tenor Sans', 'Times New Roman', serif;
+          font-family: 'Afacad', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
           --primary-color: #002a3b;
           --box-bg: #002a3b;
           --box-text: #ffffff;
