@@ -154,9 +154,9 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         .years {
           display: flex;
-          gap: ${Math.round(60 * scale)}px;
-          font-size: ${Math.round(64 * scale)}px; /* 64pt (px) base */
-          letter-spacing: 0.1em;
+          gap: ${Math.round(16 * scale)}px;
+          font-size: ${Math.round(54 * scale)}px; /* Reduced from 64px to fit Q1 */
+          letter-spacing: 0.05em;
         }
 
         .services {
