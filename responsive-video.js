@@ -24,6 +24,7 @@ class ResponsiveVideo extends HTMLElement {
         :host {
           display: block;
           width: 100%;
+          height: fit-content !important;
           box-sizing: border-box;
         }
         .container {
@@ -36,6 +37,7 @@ class ResponsiveVideo extends HTMLElement {
           display: block;
           width: 100%;
           height: auto;
+          aspect-ratio: 3011 / 1881;
           pointer-events: none;
         }
       </style>
