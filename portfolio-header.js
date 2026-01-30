@@ -39,8 +39,9 @@ customElements.define('portfolio-header', class extends HTMLElement {
     // Scale factors to match portfolio-info.js logic (1440px is base 1.0)
     let scale = 1;
     if (vw <= 768) scale = 0.8; // Tablet
+    else if (vw <= 900) scale = 0.85; // Intermediate for 850px range
     else if (vw <= 1024) scale = 0.9; // Small laptop
-    else if (vw <= 1440) scale = 1.0; // Base Design Spec
+    else if (vw <= 1650) scale = 1.0; // Base Design Spec (Extended to 1650 to fix overlap)
     else if (vw <= 1920) scale = 1.1; // Large
     else scale = 1.2; // Extra Large
 
@@ -83,8 +84,8 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         .container {
           width: 100%;
-          padding-left: ${vw >= 1440 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
-          padding-right: ${vw >= 1440 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
+          padding-left: ${vw >= 1550 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
+          padding-right: ${vw >= 1550 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
         }
 
         .grid-wrapper {
