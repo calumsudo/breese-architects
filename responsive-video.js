@@ -6,6 +6,7 @@ class ResponsiveVideo extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.fixParentHeight();
   }
 
   static get observedAttributes() {
@@ -16,8 +17,25 @@ class ResponsiveVideo extends HTMLElement {
     this.render();
   }
 
+  fixParentHeight() {
+    // Force parent containers to respect content height
+    requestAnimationFrame(() => {
+      this.style.height = 'fit-content';
+      
+      // Walk up the DOM and fix Wix wrapper heights
+      let parent = this.parentElement;
+      let levels = 0;
+      while (parent && levels < 3) {
+        parent.style.setProperty('height', 'auto', 'important');
+        parent.style.setProperty('min-height', '0', 'important');
+        parent = parent.parentElement;
+        levels++;
+      }
+    });
+  }
+
   render() {
-    const src = this.getAttribute('src') || '';
+    const src = this.getAttribute('src') || 'https://video.wixstatic.com/video/865cb6_9b5c7f74d8694e529b380004fe83d78c/1080p/mp4/file.mp4';
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -45,6 +63,9 @@ class ResponsiveVideo extends HTMLElement {
         <video src="${src}" autoplay loop muted playsinline disablepictureinpicture></video>
       </div>
     `;
+
+    // Re-fix heights after render
+    this.fixParentHeight();
   }
 }
 
