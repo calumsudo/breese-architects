@@ -155,7 +155,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
         .years {
           display: flex;
           gap: ${Math.round(16 * scale)}px;
-          font-size: ${Math.round(54 * scale)}px; /* Reduced from 64px to fit Q1 */
+          font-size: ${Math.round(64 * scale)}px;
           letter-spacing: 0.05em;
         }
 
