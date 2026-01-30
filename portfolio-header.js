@@ -84,8 +84,15 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         .container {
           width: 100%;
-          padding-left: ${vw >= 1550 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
-          padding-right: ${vw >= 1550 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
+          padding-left: calc(100vw / 12);
+          padding-right: calc(100vw / 12);
+        }
+
+        @media (min-width: 1550px) {
+          .container {
+            padding-left: calc(100vw * 3 / 12);
+            padding-right: calc(100vw * 3 / 12);
+          }
         }
 
         .grid-wrapper {
