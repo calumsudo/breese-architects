@@ -151,11 +151,11 @@ class SideNav extends HTMLElement {
         /* Fallback breakpoints for browsers without clamp() support */
         @supports not (font-size: clamp(8px, 0.75vw, 14px)) {
           .nav-link { font-size: 8px; }
-          @media (min-width: 768px) { .nav-link { font-size: 14px; } }
-          @media (min-width: 1024px) { .nav-link { font-size: 15px; } }
-          @media (min-width: 1440px) { .nav-link { font-size: 16px; } }
-          @media (min-width: 1920px) { .nav-link { font-size: 17px; } }
-          @media (min-width: 2560px) { .nav-link { font-size: 18px; } }
+          @media (min-width: 768px) { .nav-link { font-size: 16px; } }
+          @media (min-width: 1024px) { .nav-link { font-size: 17px; } }
+          @media (min-width: 1440px) { .nav-link { font-size: 18px; } }
+          @media (min-width: 1920px) { .nav-link { font-size: 19px; } }
+          @media (min-width: 2560px) { .nav-link { font-size: 20px; } }
         }
 
         .nav-link.active {
