@@ -1,4 +1,4 @@
-class PortfolioHeader extends HTMLElement {
+customElements.define('portfolio-header', class extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -36,17 +36,16 @@ class PortfolioHeader extends HTMLElement {
   render() {
     const vw = window.innerWidth;
     
-    // Determine breakpoint for font scaling
+    // Scale factors to match portfolio-info.js logic (1440px is base 1.0)
     let scale = 1;
-    if (vw <= 768) scale = 0.5;
-    else if (vw <= 1024) scale = 0.65;
-    else if (vw <= 1440) scale = 0.8;
-    else if (vw <= 1920) scale = 0.9;
-    else if (vw <= 2560) scale = 0.95;
-    
+    if (vw <= 768) scale = 0.8; // Tablet
+    else if (vw <= 1024) scale = 0.9; // Small laptop
+    else if (vw <= 1440) scale = 1.0; // Base Design Spec
+    else if (vw <= 1920) scale = 1.1; // Large
+    else scale = 1.2; // Extra Large
+
     const isMobile = vw <= 768;
 
-    // Get attributes with defaults
     const tagline = this.getAttribute('tagline') || 'A welcome new breese';
     const yearStart = this.getAttribute('year-start') || '2026';
     const yearEnd = this.getAttribute('year-end') || '2050';
@@ -56,7 +55,6 @@ class PortfolioHeader extends HTMLElement {
     const stat2Number = this.getAttribute('stat2-number') || '120';
     const stat2Text = this.getAttribute('stat2-text') || 'LUXURY RESIDENCES RENOVATED, ENLARGED OR BUILT ALL NEW';
 
-    // Convert pipe-separated services to line breaks
     const services = servicesRaw.split('|').join('<br>');
 
     this.shadowRoot.innerHTML = `
@@ -74,156 +72,148 @@ class PortfolioHeader extends HTMLElement {
           width: 100%;
           font-family: 'Afacad', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
           --primary-color: #002a3b;
-          --box-bg: #002a3b;
-          --box-text: #ffffff;
+          --text-light: #ffffff;
         }
 
         * {
+          box-sizing: border-box;
           margin: 0;
           padding: 0;
-          box-sizing: border-box;
         }
 
         .container {
           width: 100%;
           padding-left: ${vw >= 1440 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
           padding-right: ${vw >= 1440 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
-          box-sizing: border-box;
-          position: relative;
         }
 
-        /* Centered divider that spans full height */
-        .divider {
-          display: ${isMobile ? 'none' : 'block'};
-          position: absolute;
-          left: 50%;
-          top: 0;
-          bottom: 0;
-          width: 2px;
-          background-color: var(--primary-color);
-          transform: translateX(-50%);
-        }
-
-        /* Top section with tagline, years, and services */
-        .top-section {
-          display: ${isMobile ? 'block' : 'flex'};
+        .grid-wrapper {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          grid-template-rows: auto auto;
           width: 100%;
-          min-height: ${isMobile ? 'auto' : '140px'};
-          position: relative;
         }
 
-        .left-column {
-          ${isMobile ? 'width: 100%;' : 'width: calc(50% - 20px);'}
+        /* Mobile specific layout */
+        @media (max-width: 768px) {
+          .grid-wrapper {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto auto;
+          }
+        }
+
+        .quad {
+          padding: ${Math.round(24 * scale)}px;
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          ${isMobile ? '' : 'padding-right: 40px;'}
+          justify-content: flex-start;
+          height: 100%;
         }
 
-        .tagline {
-          font-size: ${Math.round(44 * scale)}px;
-          font-style: italic;
+        /* Q1: Top Left - Tagline & Years */
+        .q1 {
+          background-color: transparent;
           color: var(--primary-color);
-          margin-bottom: ${Math.round(12 * scale)}px;
+          align-items: flex-start;
+          border-right: 4px solid var(--primary-color);
+        }
+
+        /* Q2: Top Right - Services */
+        .q2 {
+          background-color: transparent;
+          color: var(--primary-color);
+        }
+
+        /* Q3: Bottom Left - Stat 1 */
+        .q3 {
+          background-color: var(--primary-color);
+          color: var(--text-light);
+          border-right: 4px solid var(--text-light);
+        }
+
+        /* Q4: Bottom Right - Stat 2 */
+        .q4 {
+          background-color: var(--primary-color);
+          color: var(--text-light);
+        }
+
+        /* Mobile Adjustments for Borders */
+        @media (max-width: 768px) {
+          .q1 { border-right: none; border-bottom: 2px solid var(--primary-color); }
+          .q2 { border-bottom: none; }
+          .q3 { border-right: none; border-bottom: 2px solid var(--primary-color); }
+        }
+
+        /* Typography */
+        .tagline {
+          font-size: ${Math.round(30 * scale)}px; /* 30pt (px) base */
           font-weight: 400;
+          margin-bottom: ${Math.round(20 * scale)}px;
           line-height: 1.2;
         }
 
         .years {
           display: flex;
-          gap: ${Math.round(40 * scale)}px;
-          align-items: baseline;
-        }
-
-        .year {
-          font-size: ${Math.round(62 * scale)}px;
-          color: var(--primary-color);
-          letter-spacing: 0.15em;
-          font-weight: 400;
-          line-height: 1.1;
-        }
-
-        .right-column {
-          ${isMobile ? 'width: 100%;' : 'width: calc(50% - 20px);'}
-          display: flex;
-          align-items: center;
-          ${isMobile ? 'margin-top: 24px;' : 'margin-left: auto; padding-left: 40px;'}
+          gap: ${Math.round(60 * scale)}px;
+          font-size: ${Math.round(64 * scale)}px; /* 64pt (px) base */
+          letter-spacing: 0.1em;
         }
 
         .services {
-          font-size: ${Math.round(18 * scale)}px;
-          color: var(--primary-color);
-          letter-spacing: 0.25em;
-          line-height: 1.8;
-          font-weight: 400;
-        }
-
-        /* Stats boxes section */
-        .stats-section {
-          display: ${isMobile ? 'block' : 'flex'};
-          gap: 4px;
-          width: 100%;
-          margin-top: 16px;
-        }
-
-        .stat-box {
-          flex: 1;
-          background-color: var(--box-bg);
-          color: var(--box-text);
-          padding: ${Math.round(32 * scale)}px ${Math.round(40 * scale)}px;
-          box-sizing: border-box;
-          ${isMobile ? 'margin-bottom: 4px;' : ''}
+          font-size: ${Math.round(24 * scale)}px; /* 24pt (px) base */
+          line-height: 1.5;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          white-space: nowrap;
         }
 
         .stat-number {
-          font-size: ${Math.round(62 * scale)}px;
-          font-weight: 400;
-          display: block;
-          margin-bottom: ${Math.round(12 * scale)}px;
-          line-height: 1.1;
+          font-size: ${Math.round(64 * scale)}px; /* 64pt (px) base */
+          line-height: 1;
+          margin-bottom: ${Math.round(16 * scale)}px;
         }
 
         .stat-text {
-          font-size: ${Math.round(14 * scale)}px;
-          letter-spacing: 0.05em;
-          line-height: 1.6;
-          font-weight: 400;
+          font-size: ${Math.round(15 * scale)}px; /* 15pt (px) base */
           text-transform: uppercase;
+          line-height: 1.5;
+          letter-spacing: 0.05em;
+          max-width: 90%;
         }
+
       </style>
 
       <div class="container">
-        <!-- Centered divider spanning full height -->
-        <div class="divider"></div>
-
-        <div class="top-section">
-          <div class="left-column">
+        <div class="grid-wrapper">
+          
+          <!-- Q1 -->
+          <div class="quad q1">
             <div class="tagline">${tagline}</div>
             <div class="years">
-              <span class="year">${yearStart}</span>
-              <span class="year">${yearEnd}</span>
+              <span>${yearStart}</span>
+              <span>${yearEnd}</span>
             </div>
           </div>
 
-          <div class="right-column">
+          <!-- Q2 -->
+          <div class="quad q2">
             <div class="services">${services}</div>
           </div>
-        </div>
 
-        <div class="stats-section">
-          <div class="stat-box">
+          <!-- Q3 -->
+          <div class="quad q3">
             <div class="stat-number">${stat1Number}</div>
             <div class="stat-text">${stat1Text}</div>
           </div>
 
-          <div class="stat-box">
+          <!-- Q4 -->
+          <div class="quad q4">
             <div class="stat-number">${stat2Number}</div>
             <div class="stat-text">${stat2Text}</div>
           </div>
+
         </div>
       </div>
     `;
   }
-}
-
-customElements.define('portfolio-header', PortfolioHeader);
+});
