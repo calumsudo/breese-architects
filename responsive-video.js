@@ -2,11 +2,19 @@ class ResponsiveVideo extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    this.resizeObserver = null;
   }
 
   connectedCallback() {
     this.render();
-    this.fixParentHeight();
+    this.setupResizeObserver();
+  }
+
+  disconnectedCallback() {
+    // Clean up observer when element is removed
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 
   static get observedAttributes() {
@@ -17,16 +25,40 @@ class ResponsiveVideo extends HTMLElement {
     this.render();
   }
 
+  setupResizeObserver() {
+    // Watch for size changes and fix parent heights accordingly
+    this.resizeObserver = new ResizeObserver(() => {
+      this.fixParentHeight();
+    });
+
+    // Observe the video element for size changes
+    const video = this.shadowRoot.querySelector('video');
+    if (video) {
+      this.resizeObserver.observe(video);
+    }
+
+    // Initial fix
+    this.fixParentHeight();
+  }
+
   fixParentHeight() {
-    // Force parent containers to respect content height
     requestAnimationFrame(() => {
-      this.style.height = 'fit-content';
-      
+      const video = this.shadowRoot.querySelector('video');
+      if (!video) return;
+
+      // Get the actual rendered height of the video
+      const videoHeight = video.getBoundingClientRect().height;
+
+      // Set host height to match video
+      this.style.setProperty('height', `${videoHeight}px`, 'important');
+      this.style.setProperty('max-height', `${videoHeight}px`, 'important');
+
       // Walk up the DOM and fix Wix wrapper heights
       let parent = this.parentElement;
       let levels = 0;
-      while (parent && levels < 3) {
-        parent.style.setProperty('height', 'auto', 'important');
+      while (parent && levels < 5) {
+        parent.style.setProperty('height', `${videoHeight}px`, 'important');
+        parent.style.setProperty('max-height', `${videoHeight}px`, 'important');
         parent.style.setProperty('min-height', '0', 'important');
         parent = parent.parentElement;
         levels++;
@@ -42,8 +74,8 @@ class ResponsiveVideo extends HTMLElement {
         :host {
           display: block;
           width: 100%;
-          height: fit-content !important;
           box-sizing: border-box;
+          overflow: hidden;
         }
         .container {
           width: 100%;
@@ -64,8 +96,11 @@ class ResponsiveVideo extends HTMLElement {
       </div>
     `;
 
-    // Re-fix heights after render
-    this.fixParentHeight();
+    // Re-setup observer after re-render since DOM changed
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.setupResizeObserver();
+    }
   }
 }
 
