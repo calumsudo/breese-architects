@@ -61,10 +61,18 @@ class PortfolioHeader extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <style>
+        @font-face {
+          font-family: 'Afacad';
+          src: url('https://raw.githubusercontent.com/calumsudo/breese-architects/main/assets/Afacad-VariableFont_wght.ttf') format('truetype');
+          font-weight: 100 900;
+          font-style: normal;
+          font-display: swap;
+        }
+
         :host {
           display: block;
           width: 100%;
-          font-family: 'Tenor Sans', 'Times New Roman', serif;
+          font-family: 'Afacad', 'Tenor Sans', 'Times New Roman', serif;
           --primary-color: #002a3b;
           --box-bg: #002a3b;
           --box-text: #ffffff;
@@ -78,22 +86,34 @@ class PortfolioHeader extends HTMLElement {
 
         .container {
           width: 100%;
-          padding-left: calc(100vw / 12);
-          padding-right: calc(100vw / 12);
+          padding-left: ${vw >= 1440 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
+          padding-right: ${vw >= 1440 ? 'calc(100vw * 3 / 12)' : 'calc(100vw / 12)'};
           box-sizing: border-box;
+          position: relative;
         }
 
-        /* Top section with tagline, years, divider, and services */
+        /* Centered divider that spans full height */
+        .divider {
+          display: ${isMobile ? 'none' : 'block'};
+          position: absolute;
+          left: 50%;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background-color: var(--primary-color);
+          transform: translateX(-50%);
+        }
+
+        /* Top section with tagline, years, and services */
         .top-section {
           display: ${isMobile ? 'block' : 'flex'};
-          justify-content: space-between;
-          align-items: stretch;
           width: 100%;
           min-height: ${isMobile ? 'auto' : '140px'};
+          position: relative;
         }
 
         .left-column {
-          flex: 1;
+          ${isMobile ? 'width: 100%;' : 'width: calc(50% - 20px);'}
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -123,22 +143,11 @@ class PortfolioHeader extends HTMLElement {
           line-height: 1.1;
         }
 
-        .divider-wrapper {
-          display: ${isMobile ? 'none' : 'flex'};
-          align-items: stretch;
-          padding: 0 40px;
-        }
-
-        .divider {
-          width: 2px;
-          background-color: var(--primary-color);
-        }
-
         .right-column {
-          flex: 1;
+          ${isMobile ? 'width: 100%;' : 'width: calc(50% - 20px);'}
           display: flex;
           align-items: center;
-          ${isMobile ? 'margin-top: 24px;' : 'padding-left: 0;'}
+          ${isMobile ? 'margin-top: 24px;' : 'margin-left: auto; padding-left: 40px;'}
         }
 
         .services {
@@ -184,6 +193,9 @@ class PortfolioHeader extends HTMLElement {
       </style>
 
       <div class="container">
+        <!-- Centered divider spanning full height -->
+        <div class="divider"></div>
+
         <div class="top-section">
           <div class="left-column">
             <div class="tagline">${tagline}</div>
@@ -191,10 +203,6 @@ class PortfolioHeader extends HTMLElement {
               <span class="year">${yearStart}</span>
               <span class="year">${yearEnd}</span>
             </div>
-          </div>
-
-          <div class="divider-wrapper">
-            <div class="divider"></div>
           </div>
 
           <div class="right-column">
