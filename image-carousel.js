@@ -27,7 +27,6 @@ class ImageCarousel extends HTMLElement {
     this.render();
   }
 
-
   preloadImages() {
     if (this._preloaded) return;
     this._preloaded = true;
@@ -36,13 +35,6 @@ class ImageCarousel extends HTMLElement {
       const img = new Image();
       img.src = src;
     });
-  }
-
-
-  addEventListeners() {
-    // Event delegation or binding can be done here if needed
-    // But since we re-render, we might need to re-bind or use a stable container
-    // For simplicity with full re-renders, we'll bind in render or use a persistent container
   }
 
   prevImage() {
@@ -62,22 +54,11 @@ class ImageCarousel extends HTMLElement {
   render() {
     if (!this._images || this._images.length === 0) return;
 
-    // Calculate view window
-    // We want to show 3 images: left, center, right
-    // The "center" is the currentIndex.
-    
-    // We need to handle edge cases where currentIndex is 0 (no left) or last (no right)
-    // The prompt says "only ever show 3 images at a time".
-    // It also says "start position should be the second photo".
-    // If we are at index 0, we might show [null, 0, 1] or stop at 0?
-    // Let's assume the list is finite.
-    // If index = 0, show empty/placeholder left, image 0 center, image 1 right.
-    // If index = last, show image n-1 left, image n center, empty right.
-
     const styles = `
       :host {
         display: block;
         width: 100%;
+        height: fit-content !important;
         font-family: sans-serif;
         --arrow-color: #002a3b;
         --track-color: #92928d;
@@ -100,7 +81,7 @@ class ImageCarousel extends HTMLElement {
         justify-content: center;
         align-items: stretch;
         width: 100%;
-        height: 500px; /* Fixed height to prevent jumping */
+        height: clamp(300px, 40vw, 500px); /* Responsive height */
         gap: 4px;
         margin-bottom: 8px;
         overflow: hidden;
@@ -115,45 +96,42 @@ class ImageCarousel extends HTMLElement {
         transition: all 0.3s ease;
       }
 
-      /* Side images: Fill remaining space, Portrait Crop */
       .side-image {
         flex: 1; 
-        min-width: 0; /* Allows flex shrink if needed */
+        min-width: 0;
       }
 
       .side-image img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Forces fill */
+        object-fit: cover;
         filter: grayscale(100%);
         opacity: 0.8;
         display: block;
       }
 
-      /* Center image: Sized by content (height) */
       .center-image {
-        flex: 0 0 auto; /* Do not grow, just fit content */
+        flex: 0 0 auto;
         width: auto;
-        max-width: 70%; /* Ensure side images are always visible */
+        max-width: 70%;
       }
 
       .center-image img {
-        height: 100%; /* Match container fixed height */
-        width: auto; /* Width adjusts to maintain aspect ratio */
-        object-fit: contain; /* Ensure full image is seen (Original Crop) */
+        height: 100%;
+        width: auto;
+        object-fit: contain;
         filter: grayscale(0%);
         opacity: 1;
         display: block;
       }
 
-      /* Controls */
       .controls-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
         height: 30px;
-        margin-top: 4px; /* Slight separation */
+        margin-top: 4px;
       }
 
       .arrow {
@@ -200,7 +178,6 @@ class ImageCarousel extends HTMLElement {
       }
     `;
 
-    // Logic for visible images
     const prevIndex = this.currentIndex - 1;
     const nextIndex = this.currentIndex + 1;
 
@@ -215,17 +192,9 @@ class ImageCarousel extends HTMLElement {
       `;
     };
 
-    // Calculate Scrollbar Position
-    // We have N images. The thumb represents the current index.
-    // Thumb width could be proportional (1/N) or fixed.
-    // Let's make it proportional but with a min-width.
     const totalImages = this._images.length;
     const thumbWidthPercent = Math.max(10, 100 / totalImages); 
-    // Left position range: 0% to (100% - thumbWidth)
     const maxLeft = 100 - thumbWidthPercent;
-    // Current step:
-    // If totalImages = 5, indices 0..4
-    // Percent per step = maxLeft / (totalImages - 1)
     const stepPercent = totalImages > 1 ? maxLeft / (totalImages - 1) : 0;
     const thumbLeft = stepPercent * this.currentIndex;
 
@@ -240,19 +209,16 @@ class ImageCarousel extends HTMLElement {
         </div>
 
         <div class="controls-container">
-          <!-- Left Arrow -->
           <div class="arrow arrow-left ${this.currentIndex === 0 ? 'disabled' : ''}" id="prevBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
                <path d="M17.4596,9.9108L0,4.9724,17.4596.5278v9.383Z" />
             </svg>
           </div>
 
-          <!-- Scrollbar -->
           <div class="scrollbar-track" id="track">
             <div class="scrollbar-thumb" style="width: ${thumbWidthPercent}%; left: ${thumbLeft}%;"></div>
           </div>
 
-          <!-- Right Arrow -->
           <div class="arrow arrow-right ${this.currentIndex === this._images.length - 1 ? 'disabled' : ''}" id="nextBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
               <path d="M0,9.9108l17.4596-4.9384-17.4596-4.4446v9.383Z" />
@@ -265,9 +231,6 @@ class ImageCarousel extends HTMLElement {
 
     this.shadowRoot.getElementById('prevBtn').addEventListener('click', () => this.prevImage());
     this.shadowRoot.getElementById('nextBtn').addEventListener('click', () => this.nextImage());
-    
-    // Optional: Click on track to jump?
-    // For now, adhere to spec: Arrows move it.
   }
 }
 
