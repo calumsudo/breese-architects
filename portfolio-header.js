@@ -61,7 +61,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
     const longestLine = servicesRaw.split('|').reduce((a, b) => a.length > b.length ? a : b, '');
     // ~0.48em per uppercase char in Afacad at letter-spacing 0
     const maxServiceFont = Math.floor(q2Width / (longestLine.length * 0.48));
-    const servicesFontSize = Math.min(Math.round(16 * scale), maxServiceFont);
+    const servicesFontSize = Math.min(Math.round(24 * scale), maxServiceFont);
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -122,6 +122,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
           color: var(--primary-color);
           align-items: flex-start;
           border-right: ${Math.max(Math.round(2 * scale), 1)}px solid var(--primary-color);
+          padding-bottom: ${Math.round(8 * scale)}px;
         }
 
         /* Q2: Top Right - Services */
@@ -129,6 +130,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
           background-color: transparent;
           color: var(--primary-color);
           overflow: hidden;
+          padding-bottom: ${Math.round(8 * scale)}px;
         }
 
         /* Q3: Bottom Left - Stat 1 */
@@ -136,12 +138,14 @@ customElements.define('portfolio-header', class extends HTMLElement {
           background-color: var(--primary-color);
           color: var(--text-light);
           border-right: ${Math.max(Math.round(2 * scale), 1)}px solid var(--text-light);
+          padding-top: ${Math.round(8 * scale)}px;
         }
 
         /* Q4: Bottom Right - Stat 2 */
         .q4 {
           background-color: var(--primary-color);
           color: var(--text-light);
+          padding-top: ${Math.round(8 * scale)}px;
         }
 
 
