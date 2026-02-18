@@ -37,10 +37,11 @@ customElements.define('portfolio-header', class extends HTMLElement {
     const vw = window.innerWidth;
     
     // Scale factors to match portfolio-info.js logic (1440px is base 1.0)
-    let scale = 1;
-    if (vw <= 1650) scale = 1.0; // Base Design Spec
-    else if (vw <= 1920) scale = 1.1; // Large
-    else scale = 1.2; // Extra Large
+    let scale;
+    if (vw >= 1920) scale = 1.2;           // Extra Large
+    else if (vw >= 1650) scale = 1.1;      // Large
+    else if (vw >= 1440) scale = 1.0;      // Base Design Spec
+    else scale = Math.max(vw / 1440, 0.4); // Proportional shrink, floor at 0.4
 
     const tagline = this.getAttribute('tagline') || 'A welcome new breese';
     const yearStart = this.getAttribute('year-start') || '2026';
