@@ -161,12 +161,49 @@ class SideNav extends HTMLElement {
         }
 
         /*
-         * Mobile breakpoint: Hide the nav on small screens.
-         * You may want to implement a hamburger menu instead.
+         * Mobile / Portrait breakpoint: Transform side nav into a
+         * fixed horizontal top banner.
          */
-        @media (max-width: 1200px) {
+        @media (max-width: 1200px), (orientation: portrait) {
           .nav-container {
-            display: none;
+            width: 100vw;
+            height: auto;
+            background: #f0f0f0;
+            border-bottom: 1px solid #d0d0d0;
+            overflow: hidden;
+          }
+
+          .nav-inner {
+            flex-direction: row;
+            align-items: center;
+            padding: 0.55rem 1rem;
+            height: auto;
+          }
+
+          .logo {
+            max-height: 32px;
+            width: auto;
+            flex-shrink: 0;
+          }
+
+          .nav {
+            position: static;
+            transform: none;
+            flex-direction: row;
+            gap: 1.5rem;
+            align-items: center;
+            margin-left: auto;
+          }
+
+          .nav-link {
+            font-size: 12px;
+            color: #1a2e35;
+            letter-spacing: 0.1em;
+            opacity: 0.5;
+          }
+
+          .nav-link.active {
+            opacity: 1;
           }
         }
       </style>
