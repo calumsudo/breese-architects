@@ -57,11 +57,10 @@ customElements.define('portfolio-header', class extends HTMLElement {
     // Compute max services font size so the longest line fits in Q2 without wrapping
     const containerPad = vw >= 1550 ? vw * 3 / 12 : vw / 12;
     const quadPad = Math.round(24 * scale);
-    const borderW = Math.max(Math.round(4 * scale), 1);
-    const q2Width = (vw - 2 * containerPad) / 2 - 2 * quadPad - borderW;
+    const q2Width = (vw - 2 * containerPad) / 2 - 2 * quadPad;
     const longestLine = servicesRaw.split('|').reduce((a, b) => a.length > b.length ? a : b, '');
-    // ~0.62em per uppercase char in Afacad at letter-spacing 0
-    const maxServiceFont = Math.floor(q2Width / (longestLine.length * 0.62));
+    // ~0.48em per uppercase char in Afacad at letter-spacing 0
+    const maxServiceFont = Math.floor(q2Width / (longestLine.length * 0.48));
     const servicesFontSize = Math.min(Math.round(24 * scale), maxServiceFont);
 
     this.shadowRoot.innerHTML = `
