@@ -90,6 +90,13 @@ class ResponsiveVideo extends HTMLElement {
           aspect-ratio: 3011 / 1881;
           pointer-events: none;
         }
+
+        @media (max-width: 1200px), (orientation: portrait) {
+          .container {
+            padding-left: 0;
+            padding-right: 0;
+          }
+        }
       </style>
       <div class="container">
         <video src="${src}" autoplay loop muted playsinline disablepictureinpicture></video>
