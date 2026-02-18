@@ -176,12 +176,14 @@ class SideNav extends HTMLElement {
           .nav-inner {
             flex-direction: row;
             align-items: center;
-            padding: 0.55rem 1rem;
+            /* Scale padding with viewport: 6px at 320px → 16px at 1200px */
+            padding: clamp(0.35rem, 1.2vw, 0.55rem) clamp(0.5rem, 2vw, 1rem);
             height: auto;
           }
 
           .logo {
-            max-height: 32px;
+            /* Scale logo: 24px at 320px → 40px at 1200px */
+            max-height: clamp(24px, 4.5vw, 40px);
             width: auto;
             flex-shrink: 0;
           }
@@ -190,15 +192,17 @@ class SideNav extends HTMLElement {
             position: static;
             transform: none;
             flex-direction: row;
-            gap: 1.5rem;
+            /* Scale gap: 0.5rem at 320px → 1.5rem at 1200px */
+            gap: clamp(0.5rem, 2.5vw, 1.5rem);
             align-items: center;
             margin-left: auto;
           }
 
           .nav-link {
-            font-size: 12px;
+            /* Scale font: 9px at 320px → 14px at 1200px */
+            font-size: clamp(9px, 1.8vw, 14px);
             color: #1a2e35;
-            letter-spacing: 0.1em;
+            letter-spacing: clamp(0.02em, 0.15vw, 0.1em);
             opacity: 0.5;
           }
 
