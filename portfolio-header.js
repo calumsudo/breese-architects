@@ -167,8 +167,8 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         .services {
           font-size: ${servicesFontSize}px;
-          line-height: 1.5;
-          letter-spacing: ${scale >= 1 ? '0.1em' : '0em'};
+          line-height: 1.15;
+          letter-spacing: 0.02em;
           text-transform: uppercase;
           white-space: nowrap;
         }
