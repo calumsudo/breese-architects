@@ -205,9 +205,9 @@ class PortfolioInfo extends HTMLElement {
         }
 
         /* --- Layout Responsiveness (Mobile layout changes) --- */
-        
-        @media (max-width: 1024px) {
-           /* Widen the main container on smaller screens so content isn't too squished */
+
+        @media (max-width: 1200px), (orientation: portrait) {
+           /* Halve the margins when side-nav switches to top banner */
            .content-wrapper {
              grid-column: 2 / 12;
            }
