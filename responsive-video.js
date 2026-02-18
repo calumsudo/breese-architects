@@ -87,7 +87,7 @@ class ResponsiveVideo extends HTMLElement {
           display: block;
           width: 100%;
           height: auto;
-          aspect-ratio: 3011 / 1881;
+          object-fit: contain;
           pointer-events: none;
         }
 
