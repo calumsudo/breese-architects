@@ -38,17 +38,14 @@ class ImageCarousel extends HTMLElement {
   }
 
   prevImage() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-      this.render();
-    }
+    const len = this._images.length;
+    this.currentIndex = (this.currentIndex - 1 + len) % len;
+    this.render();
   }
 
   nextImage() {
-    if (this.currentIndex < this._images.length - 1) {
-      this.currentIndex++;
-      this.render();
-    }
+    this.currentIndex = (this.currentIndex + 1) % this._images.length;
+    this.render();
   }
 
   render() {
@@ -199,13 +196,11 @@ class ImageCarousel extends HTMLElement {
       }
     `;
 
-    const prevIndex = this.currentIndex - 1;
-    const nextIndex = this.currentIndex + 1;
+    const len = this._images.length;
+    const prevIndex = (this.currentIndex - 1 + len) % len;
+    const nextIndex = (this.currentIndex + 1) % len;
 
     const getImageHTML = (index, type) => {
-      if (index < 0 || index >= this._images.length) {
-        return `<div class="image-slot ${type}" style="visibility: hidden;"></div>`;
-      }
       return `
         <div class="image-slot ${type}">
           <img src="${this._images[index]}" alt="Image ${index}">
@@ -230,7 +225,7 @@ class ImageCarousel extends HTMLElement {
         </div>
 
         <div class="controls-container">
-          <div class="arrow arrow-left ${this.currentIndex === 0 ? 'disabled' : ''}" id="prevBtn">
+          <div class="arrow arrow-left" id="prevBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
                <path d="M17.4596,9.9108L0,4.9724,17.4596.5278v9.383Z" />
             </svg>
@@ -240,7 +235,7 @@ class ImageCarousel extends HTMLElement {
             <div class="scrollbar-thumb" style="width: ${thumbWidthPercent}%; left: ${thumbLeft}%;"></div>
           </div>
 
-          <div class="arrow arrow-right ${this.currentIndex === this._images.length - 1 ? 'disabled' : ''}" id="nextBtn">
+          <div class="arrow arrow-right" id="nextBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
               <path d="M0,9.9108l17.4596-4.9384-17.4596-4.4446v9.383Z" />
             </svg>
