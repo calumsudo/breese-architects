@@ -176,6 +176,13 @@ class ImageCarousel extends HTMLElement {
         transition: left 0.3s ease;
         box-sizing: border-box;
       }
+
+      @media (max-width: 1200px), (orientation: portrait) {
+        .carousel-container {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
     `;
 
     const prevIndex = this.currentIndex - 1;
