@@ -56,12 +56,12 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
     // Compute max services font size so the longest line fits in Q2 without wrapping
     const containerPad = vw >= 1550 ? vw * 3 / 12 : vw / 12;
-    const quadPad = Math.round(24 * scale);
+    const quadPad = Math.round(16 * scale);
     const q2Width = (vw - 2 * containerPad) / 2 - 2 * quadPad;
     const longestLine = servicesRaw.split('|').reduce((a, b) => a.length > b.length ? a : b, '');
     // ~0.48em per uppercase char in Afacad at letter-spacing 0
     const maxServiceFont = Math.floor(q2Width / (longestLine.length * 0.48));
-    const servicesFontSize = Math.min(Math.round(24 * scale), maxServiceFont);
+    const servicesFontSize = Math.min(Math.round(16 * scale), maxServiceFont);
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -109,7 +109,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
 
         .quad {
-          padding: ${Math.round(24 * scale)}px;
+          padding: ${Math.round(16 * scale)}px;
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
@@ -121,7 +121,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
           background-color: transparent;
           color: var(--primary-color);
           align-items: flex-start;
-          border-right: ${Math.max(Math.round(4 * scale), 1)}px solid var(--primary-color);
+          border-right: ${Math.max(Math.round(2 * scale), 1)}px solid var(--primary-color);
         }
 
         /* Q2: Top Right - Services */
@@ -135,7 +135,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
         .q3 {
           background-color: var(--primary-color);
           color: var(--text-light);
-          border-right: ${Math.max(Math.round(4 * scale), 1)}px solid var(--text-light);
+          border-right: ${Math.max(Math.round(2 * scale), 1)}px solid var(--text-light);
         }
 
         /* Q4: Bottom Right - Stat 2 */
@@ -147,21 +147,21 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         /* Typography */
         .tagline {
-          font-size: ${Math.round(30 * scale)}px; /* 30pt (px) base */
+          font-size: ${Math.round(20 * scale)}px;
           font-weight: 400;
-          margin-bottom: ${Math.round(20 * scale)}px;
+          margin-bottom: ${Math.round(12 * scale)}px;
           line-height: 1.2;
         }
 
         .years {
           display: flex;
-          gap: ${Math.round(12 * scale)}px;
-          font-size: ${Math.round(64 * scale)}px;
+          gap: ${Math.round(8 * scale)}px;
+          font-size: ${Math.round(42 * scale)}px;
           letter-spacing: ${scale >= 1 ? '0.05em' : '0em'};
         }
 
         .services {
-          font-size: ${servicesFontSize}px; /* 24pt (px) base, clamped to fit Q2 */
+          font-size: ${servicesFontSize}px;
           line-height: 1.5;
           letter-spacing: ${scale >= 1 ? '0.1em' : '0em'};
           text-transform: uppercase;
@@ -169,13 +169,13 @@ customElements.define('portfolio-header', class extends HTMLElement {
         }
 
         .stat-number {
-          font-size: ${Math.round(64 * scale)}px; /* 64pt (px) base */
+          font-size: ${Math.round(42 * scale)}px;
           line-height: 1;
-          margin-bottom: ${Math.round(16 * scale)}px;
+          margin-bottom: ${Math.round(10 * scale)}px;
         }
 
         .stat-text {
-          font-size: ${Math.round(15 * scale)}px; /* 15pt (px) base */
+          font-size: ${Math.round(10 * scale)}px;
           text-transform: uppercase;
           line-height: 1.5;
           letter-spacing: 0.05em;
