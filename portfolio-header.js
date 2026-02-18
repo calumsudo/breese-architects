@@ -54,6 +54,16 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
     const services = servicesRaw.split('|').join('<br>');
 
+    // Compute max services font size so the longest line fits in Q2 without wrapping
+    const containerPad = vw >= 1550 ? vw * 3 / 12 : vw / 12;
+    const quadPad = Math.round(24 * scale);
+    const borderW = Math.max(Math.round(4 * scale), 1);
+    const q2Width = (vw - 2 * containerPad) / 2 - 2 * quadPad - borderW;
+    const longestLine = servicesRaw.split('|').reduce((a, b) => a.length > b.length ? a : b, '');
+    // ~0.62em per uppercase char in Afacad at letter-spacing 0
+    const maxServiceFont = Math.floor(q2Width / (longestLine.length * 0.62));
+    const servicesFontSize = Math.min(Math.round(24 * scale), maxServiceFont);
+
     this.shadowRoot.innerHTML = `
       <style>
         @font-face {
@@ -152,10 +162,11 @@ customElements.define('portfolio-header', class extends HTMLElement {
         }
 
         .services {
-          font-size: ${Math.round(24 * scale)}px; /* 24pt (px) base */
+          font-size: ${servicesFontSize}px; /* 24pt (px) base, clamped to fit Q2 */
           line-height: 1.5;
-          letter-spacing: ${scale >= 1 ? '0.1em' : Math.round(scale * 0.1 * 100) / 100 + 'em'};
+          letter-spacing: ${scale >= 1 ? '0.1em' : '0em'};
           text-transform: uppercase;
+          white-space: nowrap;
         }
 
         .stat-number {
