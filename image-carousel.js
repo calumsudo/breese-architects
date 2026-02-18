@@ -182,6 +182,20 @@ class ImageCarousel extends HTMLElement {
           padding-left: 0;
           padding-right: 0;
         }
+
+        .side-image {
+          display: none;
+        }
+
+        .center-image {
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .center-image img {
+          width: 100%;
+          object-fit: cover;
+        }
       }
     `;
 
