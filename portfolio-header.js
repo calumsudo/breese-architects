@@ -181,6 +181,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         .stat-text {
           font-size: ${Math.round(13 * scale)}px;
+          font-weight: 500;
           text-transform: uppercase;
           line-height: 1.3;
           letter-spacing: 0.05em;
