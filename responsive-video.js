@@ -53,13 +53,17 @@ class ResponsiveVideo extends HTMLElement {
       this.style.setProperty('height', `${videoHeight}px`, 'important');
       this.style.setProperty('max-height', `${videoHeight}px`, 'important');
 
-      // Walk up the DOM and fix Wix wrapper heights
+      // Walk up the DOM and fix Wix wrapper heights and widths
       let parent = this.parentElement;
       let levels = 0;
       while (parent && levels < 5) {
         parent.style.setProperty('height', `${videoHeight}px`, 'important');
         parent.style.setProperty('max-height', `${videoHeight}px`, 'important');
         parent.style.setProperty('min-height', '0', 'important');
+        // Ensure parents don't constrain width, preventing horizontal clipping
+        parent.style.setProperty('width', '100%', 'important');
+        parent.style.setProperty('max-width', '100%', 'important');
+        parent.style.setProperty('overflow', 'visible', 'important');
         parent = parent.parentElement;
         levels++;
       }
@@ -75,7 +79,7 @@ class ResponsiveVideo extends HTMLElement {
           display: block;
           width: 100%;
           box-sizing: border-box;
-          overflow: hidden;
+          overflow: visible;
         }
         .container {
           width: 100%;
@@ -86,6 +90,7 @@ class ResponsiveVideo extends HTMLElement {
         video {
           display: block;
           width: 100%;
+          max-width: 100%;
           height: auto;
           object-fit: contain;
           pointer-events: none;
