@@ -120,7 +120,7 @@ class SideNav extends HTMLElement {
           transform: translateY(-50%);
           display: flex;
           flex-direction: column;
-          gap: clamp(0.75rem, 1.5vw, 1.5rem);
+          gap: clamp(1.25rem, 2.5vw, 2.5rem);
           text-align: left;
           /* Ensure nav stays within bounds */
           max-width: calc((100vw / 12) - (100vw / 30));
@@ -130,7 +130,7 @@ class SideNav extends HTMLElement {
         .nav-link {
           font-family: 'Afacad', sans-serif;
           /* Smaller font to fit within 1/12 column */
-          font-size: clamp(8px, 0.75vw, 14px);
+          font-size: clamp(10px, 1.1vw, 18px);
           font-weight: 400;
           margin: 0;
           /* Reduced letter-spacing to fit text */
