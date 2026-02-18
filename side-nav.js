@@ -68,8 +68,7 @@ class SideNav extends HTMLElement {
           z-index: 1000;
           pointer-events: none;
           box-sizing: border-box;
-          /* Prevent any overflow into content area */
-          overflow: hidden;
+          overflow: visible;
         }
 
         .nav-inner {
@@ -122,9 +121,6 @@ class SideNav extends HTMLElement {
           flex-direction: column;
           gap: clamp(1.25rem, 2.5vw, 2.5rem);
           text-align: left;
-          /* Ensure nav stays within bounds */
-          max-width: calc((100vw / 12) - (100vw / 30));
-          overflow: hidden;
         }
 
         .nav-link {
@@ -144,8 +140,6 @@ class SideNav extends HTMLElement {
           text-align: left;
           /* Allow wrapping if needed, but shouldn't be necessary now */
           white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
         }
 
         /* Fallback breakpoints for browsers without clamp() support */
