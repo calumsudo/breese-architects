@@ -133,22 +133,17 @@ class ImageCarousel extends HTMLElement {
 
       .arrow {
         cursor: pointer;
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         fill: var(--arrow-color);
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(255, 255, 255, 0.85);
-        border-radius: 50%;
-        padding: 8px;
-        box-sizing: border-box;
-        transition: background 0.2s ease, opacity 0.2s ease;
+        transition: opacity 0.2s ease;
       }
 
       .arrow:hover {
-        background: rgba(255, 255, 255, 1);
-        opacity: 0.9;
+        opacity: 0.7;
       }
       
       .arrow.disabled {
