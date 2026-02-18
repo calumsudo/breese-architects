@@ -204,7 +204,47 @@ class PortfolioInfo extends HTMLElement {
            .stat-label { font-size: 18px; }
         }
 
+        /* --- Layout Responsiveness (Mobile layout changes) --- */
 
+        @media (max-width: 1200px), (orientation: portrait) {
+           /* Halve the margins when side-nav switches to top banner */
+           .content-wrapper {
+             grid-column: 2 / 12;
+           }
+        }
+
+        @media (max-width: 768px) {
+          /* Stack the quadrants on mobile */
+          .content-wrapper {
+            grid-template-columns: 1fr;
+            grid-column: 2 / 12;
+          }
+          
+          .q2 {
+            border-left: none;
+            border-top: 1px solid #1a2e35;
+            padding-left: 0;
+            padding-top: 24px;
+          }
+          
+          .q3, .q4 {
+             border-right: none;
+             border-bottom: 1px solid rgba(255,255,255,0.2);
+          }
+          .q4 {
+            border-bottom: none;
+          }
+        }
+        
+        @media (max-width: 480px) {
+           .content-wrapper {
+             grid-column: 1 / 13;
+             padding: 0 20px;
+           }
+           .q1, .q2, .q3, .q4 {
+             padding: 24px 10px;
+           }
+        }
 
       </style>
 

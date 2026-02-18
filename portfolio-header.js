@@ -38,14 +38,9 @@ customElements.define('portfolio-header', class extends HTMLElement {
     
     // Scale factors to match portfolio-info.js logic (1440px is base 1.0)
     let scale = 1;
-    if (vw <= 768) scale = 0.8; // Tablet
-    else if (vw <= 900) scale = 0.85; // Intermediate for 850px range
-    else if (vw <= 1024) scale = 0.9; // Small laptop
-    else if (vw <= 1650) scale = 1.0; // Base Design Spec (Extended to 1650 to fix overlap)
+    if (vw <= 1650) scale = 1.0; // Base Design Spec
     else if (vw <= 1920) scale = 1.1; // Large
     else scale = 1.2; // Extra Large
-
-    const isMobile = vw <= 768;
 
     const tagline = this.getAttribute('tagline') || 'A welcome new breese';
     const yearStart = this.getAttribute('year-start') || '2026';
@@ -102,13 +97,6 @@ customElements.define('portfolio-header', class extends HTMLElement {
           width: 100%;
         }
 
-        /* Mobile specific layout */
-        @media (max-width: 768px) {
-          .grid-wrapper {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto auto auto auto;
-          }
-        }
 
         .quad {
           padding: ${Math.round(24 * scale)}px;
@@ -145,12 +133,6 @@ customElements.define('portfolio-header', class extends HTMLElement {
           color: var(--text-light);
         }
 
-        /* Mobile Adjustments for Borders */
-        @media (max-width: 768px) {
-          .q1 { border-right: none; border-bottom: 2px solid var(--primary-color); }
-          .q2 { border-bottom: none; }
-          .q3 { border-right: none; border-bottom: 2px solid var(--primary-color); }
-        }
 
         /* Typography */
         .tagline {
