@@ -48,7 +48,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
     const yearEnd = this.getAttribute('year-end') || '2050';
     const servicesRaw = this.getAttribute('services') || 'RESIDENTIAL ARCHITECTURE|FINE AND GRAPHIC ARTS|BRANDED PRODUCT DESIGN|PHOTOGRAPHY';
     const stat1Number = this.getAttribute('stat1-number') || '30';
-    const stat1Text = this.getAttribute('stat1-text') || 'YEAR ANNIVERSARY BRICK AND MORTAR ON MARTHA\'S VINEYARD; NEW YORK AND MASSACHUSETTS LICENSES';
+    const stat1Text = this.getAttribute('stat1-text') || 'YEAR ANNIVERSARY BRICK AND MORTAR ON<br>MARTHA\'S VINEYARD;<br>NEW YORK AND MASSACHUSETTS LICENSES';
     const stat2Number = this.getAttribute('stat2-number') || '120';
     const stat2Text = this.getAttribute('stat2-text') || 'LUXURY RESIDENCES RENOVATED, ENLARGED OR BUILT ALL NEW';
 
@@ -172,15 +172,14 @@ customElements.define('portfolio-header', class extends HTMLElement {
         .stat-number {
           font-size: ${Math.round(42 * scale)}px;
           line-height: 1;
-          margin-bottom: ${Math.round(10 * scale)}px;
+          margin-bottom: ${Math.round(4 * scale)}px;
         }
 
         .stat-text {
-          font-size: ${Math.round(10 * scale)}px;
+          font-size: ${Math.round(13 * scale)}px;
           text-transform: uppercase;
-          line-height: 1.5;
+          line-height: 1.3;
           letter-spacing: 0.05em;
-          max-width: 90%;
         }
 
       </style>
