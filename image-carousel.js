@@ -194,7 +194,7 @@ class ImageCarousel extends HTMLElement {
 
         .center-image img {
           width: 100%;
-          object-fit: cover;
+          object-fit: contain;
         }
       }
     `;
