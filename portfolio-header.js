@@ -55,7 +55,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
     const services = servicesRaw.split('|').join('<br>');
 
     // Compute max services font size so the longest line fits in Q2 without wrapping
-    const containerPad = vw >= 1550 ? vw * 3 / 12 : vw / 12;
+    const containerPad = vw <= 1200 ? vw / 12 : vw * 3 / 12;
     const quadPad = Math.round(16 * scale);
     const q2Width = (vw - 2 * containerPad) / 2 - 2 * quadPad;
     const longestLine = servicesRaw.split('|').reduce((a, b) => a.length > b.length ? a : b, '');
@@ -89,14 +89,14 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         .container {
           width: 100%;
-          padding-left: calc(100vw / 12);
-          padding-right: calc(100vw / 12);
+          padding-left: calc(100vw * 3 / 12);
+          padding-right: calc(100vw * 3 / 12);
         }
 
-        @media (min-width: 1550px) {
+        @media (max-width: 1200px) {
           .container {
-            padding-left: calc(100vw * 3 / 12);
-            padding-right: calc(100vw * 3 / 12);
+            padding-left: calc(100vw / 12);
+            padding-right: calc(100vw / 12);
           }
         }
 
