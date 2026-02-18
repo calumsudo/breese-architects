@@ -152,7 +152,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
         /* Typography */
         .tagline {
           font-size: ${Math.round(28 * scale)}px;
-          font-weight: 400;
+          font-weight: 500;
           margin-bottom: ${Math.round(8 * scale)}px;
           line-height: 1.2;
         }
