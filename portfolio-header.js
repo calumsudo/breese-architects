@@ -50,7 +50,7 @@ customElements.define('portfolio-header', class extends HTMLElement {
     const stat1Number = this.getAttribute('stat1-number') || '30';
     const stat1Text = this.getAttribute('stat1-text') || 'YEAR ANNIVERSARY BRICK AND MORTAR ON<br>MARTHA\'S VINEYARD;<br>NEW YORK AND MASSACHUSETTS LICENSES';
     const stat2Number = this.getAttribute('stat2-number') || '120';
-    const stat2Text = this.getAttribute('stat2-text') || 'LUXURY RESIDENCES RENOVATED, ENLARGED OR BUILT ALL NEW';
+    const stat2Text = this.getAttribute('stat2-text') || 'LUXURY RESIDENCES RENOVATED,<br>ENLARGED OR BUILT ALL NEW';
 
     const services = servicesRaw.split('|').join('<br>');
 
