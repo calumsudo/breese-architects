@@ -111,11 +111,13 @@ class ImageCarousel extends HTMLElement {
         flex: 0 0 auto;
         width: auto;
         max-width: 70%;
+        overflow: visible;
       }
 
       .center-image img {
         height: 100%;
         width: auto;
+        max-width: 100%;
         object-fit: contain;
         filter: grayscale(0%);
         opacity: 1;
