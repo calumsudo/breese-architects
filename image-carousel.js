@@ -252,6 +252,72 @@ class ImageCarousel extends HTMLElement {
 
     this.shadowRoot.getElementById('prevBtn').addEventListener('click', () => this.prevImage());
     this.shadowRoot.getElementById('nextBtn').addEventListener('click', () => this.nextImage());
+
+    // --- Scrollbar interaction (click + drag) ---
+    const track = this.shadowRoot.getElementById('track');
+    const thumb = track.querySelector('.scrollbar-thumb');
+
+    const indexFromPosition = (clientX) => {
+      const rect = track.getBoundingClientRect();
+      const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      return Math.round(ratio * (this._images.length - 1));
+    };
+
+    // Click on track to jump to image
+    track.addEventListener('click', (e) => {
+      if (this._dragged) return; // ignore click after drag
+      const newIndex = indexFromPosition(e.clientX);
+      if (newIndex !== this.currentIndex) {
+        this.currentIndex = newIndex;
+        this.render();
+      }
+    });
+
+    // Drag support
+    const onDragStart = (startX) => {
+      this._dragged = false;
+      thumb.style.transition = 'none';
+
+      const onDragMove = (clientX) => {
+        this._dragged = true;
+        const newIndex = indexFromPosition(clientX);
+        if (newIndex !== this.currentIndex) {
+          this.currentIndex = newIndex;
+          // Update thumb position without full re-render
+          const mLeft = 100 - thumbWidthPercent;
+          const sStep = this._images.length > 1 ? mLeft / (this._images.length - 1) : 0;
+          thumb.style.left = (sStep * this.currentIndex) + '%';
+        }
+      };
+
+      const onDragEnd = () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        document.removeEventListener('touchmove', onTouchMove);
+        document.removeEventListener('touchend', onTouchEnd);
+        // Re-render to sync images with final position
+        this.render();
+      };
+
+      const onMouseMove = (e) => onDragMove(e.clientX);
+      const onMouseUp = () => onDragEnd();
+      const onTouchMove = (e) => onDragMove(e.touches[0].clientX);
+      const onTouchEnd = () => onDragEnd();
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+      document.addEventListener('touchmove', onTouchMove, { passive: true });
+      document.addEventListener('touchend', onTouchEnd);
+    };
+
+    thumb.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      onDragStart(e.clientX);
+    });
+
+    thumb.addEventListener('touchstart', (e) => {
+      onDragStart(e.touches[0].clientX);
+    }, { passive: true });
   }
 }
 
