@@ -112,20 +112,21 @@ customElements.define('portfolio-header', class extends HTMLElement {
           background-color: transparent;
           color: var(--primary-color);
           align-items: flex-start;
-          border-right: 4px solid var(--primary-color);
+          border-right: ${Math.max(Math.round(4 * scale), 1)}px solid var(--primary-color);
         }
 
         /* Q2: Top Right - Services */
         .q2 {
           background-color: transparent;
           color: var(--primary-color);
+          overflow: hidden;
         }
 
         /* Q3: Bottom Left - Stat 1 */
         .q3 {
           background-color: var(--primary-color);
           color: var(--text-light);
-          border-right: 4px solid var(--text-light);
+          border-right: ${Math.max(Math.round(4 * scale), 1)}px solid var(--text-light);
         }
 
         /* Q4: Bottom Right - Stat 2 */
@@ -145,17 +146,16 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         .years {
           display: flex;
-          gap: ${Math.round(16 * scale)}px;
+          gap: ${Math.round(12 * scale)}px;
           font-size: ${Math.round(64 * scale)}px;
-          letter-spacing: 0.05em;
+          letter-spacing: ${scale >= 1 ? '0.05em' : '0em'};
         }
 
         .services {
           font-size: ${Math.round(24 * scale)}px; /* 24pt (px) base */
           line-height: 1.5;
-          letter-spacing: 0.1em;
+          letter-spacing: ${scale >= 1 ? '0.1em' : Math.round(scale * 0.1 * 100) / 100 + 'em'};
           text-transform: uppercase;
-          white-space: nowrap;
         }
 
         .stat-number {
