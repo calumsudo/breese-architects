@@ -53,7 +53,13 @@ class ResponsiveVideo extends HTMLElement {
       this.style.setProperty('height', `${videoHeight}px`, 'important');
       this.style.setProperty('max-height', `${videoHeight}px`, 'important');
 
-      // Walk up the DOM and fix Wix wrapper heights and widths
+      // On mobile/portrait, skip aggressive parent height fixing.
+      // Wix stacks elements vertically on mobile, so setting fixed heights
+      // on shared parent containers hides sibling components below the video.
+      const isMobile = window.innerWidth <= 1200 || window.matchMedia('(orientation: portrait)').matches;
+      if (isMobile) return;
+
+      // Walk up the DOM and fix Wix wrapper heights and widths (desktop only)
       let parent = this.parentElement;
       let levels = 0;
       while (parent && levels < 5) {
