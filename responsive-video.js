@@ -95,6 +95,8 @@ class ResponsiveVideo extends HTMLElement {
           .container {
             padding-left: 0;
             padding-right: 0;
+            /* Clear the fixed top nav banner */
+            margin-top: clamp(36px, 6vw, 56px);
           }
         }
       </style>
