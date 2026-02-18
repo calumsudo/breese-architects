@@ -147,16 +147,17 @@ customElements.define('portfolio-header', class extends HTMLElement {
 
         /* Typography */
         .tagline {
-          font-size: ${Math.round(20 * scale)}px;
+          font-size: ${Math.round(28 * scale)}px;
           font-weight: 400;
-          margin-bottom: ${Math.round(12 * scale)}px;
+          margin-bottom: ${Math.round(8 * scale)}px;
           line-height: 1.2;
         }
 
         .years {
           display: flex;
-          gap: ${Math.round(8 * scale)}px;
-          font-size: ${Math.round(42 * scale)}px;
+          justify-content: space-between;
+          width: 100%;
+          font-size: ${Math.round(56 * scale)}px;
           letter-spacing: ${scale >= 1 ? '0.05em' : '0em'};
         }
 
