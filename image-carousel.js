@@ -135,19 +135,30 @@ class ImageCarousel extends HTMLElement {
 
       .arrow {
         cursor: pointer;
-        width: 32px;
-        height: 32px;
+        width: 24px;
+        height: 10px;
+        padding: 0 4px;
         fill: var(--arrow-color);
         display: flex;
         align-items: center;
         justify-content: center;
         transition: opacity 0.2s ease;
+        background-color: var(--track-color);
+        box-sizing: border-box;
+      }
+
+      .arrow-left {
+        border-radius: 5px 0 0 5px;
+      }
+
+      .arrow-right {
+        border-radius: 0 5px 5px 0;
       }
 
       .arrow:hover {
         opacity: 0.7;
       }
-      
+
       .arrow.disabled {
         opacity: 0.3;
         cursor: default;
@@ -156,11 +167,11 @@ class ImageCarousel extends HTMLElement {
 
       .scrollbar-track {
         flex-grow: 1;
-        margin: 0 4px;
+        margin: 0;
         height: 10px;
         background-color: var(--track-color);
-        border: 1px solid #fff;
-        border-radius: 5px;
+        border: none;
+        border-radius: 0;
         position: relative;
         cursor: pointer;
         box-sizing: border-box;
@@ -169,7 +180,7 @@ class ImageCarousel extends HTMLElement {
       .scrollbar-thumb {
         height: 100%;
         background-color: var(--thumb-color);
-        border: 1px solid #fff;
+        border: none;
         border-radius: 5px;
         position: absolute;
         top: 0;
@@ -194,7 +205,8 @@ class ImageCarousel extends HTMLElement {
 
         .center-image img {
           width: 100%;
-          object-fit: contain;
+          height: 100%;
+          object-fit: cover;
         }
       }
     `;
