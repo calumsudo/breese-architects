@@ -183,7 +183,7 @@ class ImageCarousel extends HTMLElement {
         }
 
         .images-wrapper {
-          height: auto;
+          height: 50vw;
         }
 
         .side-image {
@@ -193,15 +193,11 @@ class ImageCarousel extends HTMLElement {
         .center-image {
           max-width: 100%;
           width: 100%;
-          display: flex;
-          justify-content: center;
         }
 
         .center-image img {
-          width: auto;
-          max-width: 100%;
-          height: auto;
-          max-height: 56vw;
+          width: 100%;
+          height: 100%;
           object-fit: contain;
         }
       }
