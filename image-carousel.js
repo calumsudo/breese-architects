@@ -135,24 +135,13 @@ class ImageCarousel extends HTMLElement {
 
       .arrow {
         cursor: pointer;
-        width: 24px;
-        height: 10px;
-        padding: 0 4px;
+        width: 32px;
+        height: 32px;
         fill: var(--arrow-color);
         display: flex;
         align-items: center;
         justify-content: center;
         transition: opacity 0.2s ease;
-        background-color: var(--track-color);
-        box-sizing: border-box;
-      }
-
-      .arrow-left {
-        border-radius: 5px 0 0 5px;
-      }
-
-      .arrow-right {
-        border-radius: 0 5px 5px 0;
       }
 
       .arrow:hover {
@@ -167,11 +156,10 @@ class ImageCarousel extends HTMLElement {
 
       .scrollbar-track {
         flex-grow: 1;
-        margin: 0;
+        margin: 0 4px;
         height: 10px;
         background-color: var(--track-color);
-        border: none;
-        border-radius: 0;
+        border-radius: 5px;
         position: relative;
         cursor: pointer;
         box-sizing: border-box;
@@ -242,7 +230,7 @@ class ImageCarousel extends HTMLElement {
         <div class="controls-container">
           <div class="arrow arrow-left" id="prevBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
-               <path d="M17.4596,9.9108L0,4.9724,17.4596.5278v9.383Z" />
+               <path d="M0,5 L17,0 A5,5 0 0,0 17,10 Z" />
             </svg>
           </div>
 
@@ -252,7 +240,7 @@ class ImageCarousel extends HTMLElement {
 
           <div class="arrow arrow-right" id="nextBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
-              <path d="M0,9.9108l17.4596-4.9384-17.4596-4.4446v9.383Z" />
+              <path d="M18,5 L1,10 A5,5 0 0,1 1,0 Z" />
             </svg>
           </div>
         </div>
