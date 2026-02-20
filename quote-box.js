@@ -2,7 +2,6 @@ class QuoteBox extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.resizeObserver = null;
   }
 
   static get observedAttributes() {
@@ -11,20 +10,10 @@ class QuoteBox extends HTMLElement {
 
   attributeChangedCallback() {
     this.render();
-    this.updateSVG();
   }
 
   connectedCallback() {
     this.render();
-    this.resizeObserver = new ResizeObserver(() => this.updateSVG());
-    this.resizeObserver.observe(this);
-    this._resizeHandler = () => this.updateSVG();
-    window.addEventListener('resize', this._resizeHandler);
-  }
-
-  disconnectedCallback() {
-    if (this.resizeObserver) this.resizeObserver.disconnect();
-    window.removeEventListener('resize', this._resizeHandler);
   }
 
   render() {
@@ -34,14 +23,19 @@ class QuoteBox extends HTMLElement {
         :host {
           display: block;
           width: 100%;
-          height: ${parseInt(h, 10)}px;
+          min-height: ${parseInt(h, 10)}px;
+          background-color: #002a3b;
         }
         .container {
+          position: relative;
           width: 100%;
           height: 100%;
           padding-left: calc(100vw * 3 / 12);
           padding-right: calc(100vw * 3 / 12);
           box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         @media (max-width: 1200px) {
           .container {
@@ -50,77 +44,73 @@ class QuoteBox extends HTMLElement {
           }
         }
         svg {
+          position: absolute;
           display: block;
+          pointer-events: none;
+          height: 38%;
+          max-height: 125px;
+          width: auto;
+        }
+        
+        .quote-open {
+          top: 0;
+          left: calc(100vw * 2 / 12);
+        }
+        
+        .quote-close {
+          bottom: 0;
+          right: calc(100vw * 2 / 12);
+        }
+
+        @media (max-width: 1200px) {
+          .quote-open {
+            left: calc(100vw * 0.5 / 12);
+          }
+          .quote-close {
+            right: calc(100vw * 0.5 / 12);
+          }
         }
       </style>
       <div class="container">
-        <svg xmlns="http://www.w3.org/2000/svg"></svg>
+        <!-- Top-left quote -->
+        <svg class="quote-open" xmlns="http://www.w3.org/2000/svg" viewBox="10 0 90 125">
+          <path fill="#FCFCFC" d="
+            M84.750565,3.319713 
+            C76.747787,9.231403 68.238762,14.582113 60.887642,21.215927 
+            C53.837212,27.578392 49.680309,36.073730 49.138477,45.895954 
+            C48.556953,56.437729 53.032211,64.654114 62.108276,69.464447 
+            C68.779785,73.000359 76.154137,75.637177 83.525017,77.309242 
+            C91.260292,79.063957 94.602341,82.018066 96.037849,91.819565 
+            C98.268394,107.049515 87.081909,119.569313 70.750793,120.953346 
+            C44.974358,123.137863 22.384321,105.220535 16.956858,78.126030 
+            C10.978330,48.280521 20.753508,24.108240 44.265671,4.349872 
+            C44.416969,3.225881 44.143883,2.113117 43.544838,1.894821 
+            C42.111534,1.372513 40.524796,1.271243 39.000000,1.000000 
+            C55.687561,1.000000 72.375122,1.000000 89.348419,1.292390 
+            C88.006287,2.163091 86.378426,2.741402 84.750565,3.319713 
+            z"/>
+        </svg>
+
+        <slot></slot>
+
+        <!-- Bottom-right quote -->
+        <svg class="quote-close" xmlns="http://www.w3.org/2000/svg" viewBox="1316 201 94 128">
+           <path fill="#FCFCFC" d="
+            M1328.468628,327.000000 
+            C1333.844238,323.304962 1340.201416,320.208954 1345.399536,315.759125 
+            C1351.520630,310.519043 1357.669312,304.770782 1361.987671,298.070862 
+            C1372.937378,281.082733 1367.438843,263.976959 1349.027344,255.721069 
+            C1343.908447,253.425781 1338.384888,251.924377 1332.929077,250.515198 
+            C1324.708008,248.391800 1320.970703,244.372406 1320.070068,235.848984 
+            C1318.625000,222.172501 1327.280640,210.877060 1341.535278,207.837189 
+            C1363.000000,203.259735 1385.415527,215.464264 1395.080322,236.990601 
+            C1408.064453,265.910400 1400.383667,298.773682 1375.458252,320.851288 
+            C1373.341064,322.726501 1371.121338,324.485809 1368.974609,326.649475 
+            C1355.645752,327.000000 1342.291504,327.000000 1328.468628,327.000000 
+            z"/>
+        </svg>
       </div>
     `;
-  }
-
-  // Transform comma path segments into actual pixel coordinates.
-  // The comma is defined in a normalised 100 × 200 coordinate space
-  // as a teardrop / flowing comma — fat round head at top, curving
-  // tail tapering to a point at bottom-left.
-  _transformComma(tx, ty, scaleX, scaleY) {
-    const pts = [
-      ['M', 50, 0],
-      ['C', 80, 0, 100, 20, 100, 55],       // right upper (widest part)
-      ['C', 100, 90, 75, 130, 45, 160],      // right side curves left into tail
-      ['C', 25, 180, 10, 195, 0, 200],       // right edge to tail tip
-      ['C', 12, 192, 25, 170, 35, 148],      // left edge from tip back up
-      ['C', 48, 115, 35, 80, 10, 55],        // left side curves up
-      ['C', 0, 30, 20, 0, 50, 0],            // left upper back to start
-      ['Z']
-    ];
-    return pts.map(seg => {
-      if (seg[0] === 'Z') return 'Z';
-      const cmd = seg[0];
-      const coords = [];
-      for (let i = 1; i < seg.length; i += 2) {
-        coords.push(tx + seg[i] * scaleX);
-        coords.push(ty + seg[i + 1] * scaleY);
-      }
-      return cmd + ' ' + coords.join(' ');
-    }).join(' ');
-  }
-
-  updateSVG() {
-    const container = this.shadowRoot.querySelector('.container');
-    const svg = this.shadowRoot.querySelector('svg');
-    if (!container || !svg) return;
-
-    const hostRect = this.getBoundingClientRect();
-    const h = hostRect.height;
-    if (h === 0) return;
-
-    const style = getComputedStyle(container);
-    const w = container.clientWidth
-      - parseFloat(style.paddingLeft)
-      - parseFloat(style.paddingRight);
-    if (w <= 0) return;
-
-    svg.setAttribute('width', w);
-    svg.setAttribute('height', h);
-    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-
-    // Quote mark dimensions — proportional to box height
-    const markH = h * 0.45;
-    const markW = markH * 0.5;
-    const sx = markW / 100;
-    const sy = markH / 200;
-
-    // Opening quote (top-left): flip y so tail points toward top-left corner
-    const openQuote = this._transformComma(0, markH, sx, -sy);
-    // Closing quote (bottom-right): flip x so tail points toward bottom-right corner
-    const closeQuote = this._transformComma(w, h - markH, -sx, sy);
-
-    // Single path with evenodd: outer rectangle + inner quote shapes = cutouts
-    const d = `M0 0H${w}V${h}H0Z ${openQuote} ${closeQuote}`;
-
-    svg.innerHTML =
-      `<path fill-rule="evenodd" fill="#002a3b" d="${d}"/>`;
   }
 }
 
