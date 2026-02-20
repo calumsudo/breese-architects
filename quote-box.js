@@ -5,6 +5,15 @@ class QuoteBox extends HTMLElement {
     this.resizeObserver = null;
   }
 
+  static get observedAttributes() {
+    return ['height'];
+  }
+
+  attributeChangedCallback() {
+    this.render();
+    this.updateSVG();
+  }
+
   connectedCallback() {
     this.render();
     this.resizeObserver = new ResizeObserver(() => this.updateSVG());
@@ -19,15 +28,17 @@ class QuoteBox extends HTMLElement {
   }
 
   render() {
+    const h = this.getAttribute('height') || '250';
     this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: block;
           width: 100%;
-          height: 100%;
+          height: ${parseInt(h, 10)}px;
         }
         .container {
           width: 100%;
+          height: 100%;
           padding-left: calc(100vw * 3 / 12);
           padding-right: calc(100vw * 3 / 12);
           box-sizing: border-box;
@@ -48,18 +59,19 @@ class QuoteBox extends HTMLElement {
     `;
   }
 
-  // Transform comma path segments from normalised 100×150 space
-  // into actual pixel coordinates.
+  // Transform comma path segments into actual pixel coordinates.
+  // The comma is defined in a normalised 100 × 200 coordinate space
+  // as a teardrop / flowing comma — fat round head at top, curving
+  // tail tapering to a point at bottom-left.
   _transformComma(tx, ty, scaleX, scaleY) {
-    // Comma / closing-quote in normalised 100 × 150 space.
     const pts = [
       ['M', 50, 0],
-      ['C', 78, 0, 100, 22, 100, 50],
-      ['C', 100, 78, 78, 100, 55, 100],
-      ['C', 35, 115, 15, 135, 0, 150],
-      ['C', 12, 135, 28, 115, 38, 100],
-      ['C', 18, 96, 0, 78, 0, 50],
-      ['C', 0, 22, 22, 0, 50, 0],
+      ['C', 80, 0, 100, 20, 100, 55],       // right upper (widest part)
+      ['C', 100, 90, 75, 130, 45, 160],      // right side curves left into tail
+      ['C', 25, 180, 10, 195, 0, 200],       // right edge to tail tip
+      ['C', 12, 192, 25, 170, 35, 148],      // left edge from tip back up
+      ['C', 48, 115, 35, 80, 10, 55],        // left side curves up
+      ['C', 0, 30, 20, 0, 50, 0],            // left upper back to start
       ['Z']
     ];
     return pts.map(seg => {
@@ -70,7 +82,7 @@ class QuoteBox extends HTMLElement {
         coords.push(tx + seg[i] * scaleX);
         coords.push(ty + seg[i + 1] * scaleY);
       }
-      return cmd + coords.join(' ');
+      return cmd + ' ' + coords.join(' ');
     }).join(' ');
   }
 
@@ -83,8 +95,6 @@ class QuoteBox extends HTMLElement {
     const h = hostRect.height;
     if (h === 0) return;
 
-    container.style.height = h + 'px';
-
     const style = getComputedStyle(container);
     const w = container.clientWidth
       - parseFloat(style.paddingLeft)
@@ -96,10 +106,10 @@ class QuoteBox extends HTMLElement {
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
 
     // Quote mark dimensions — proportional to box height
-    const markH = h * 0.4;
-    const markW = markH * 0.65;
+    const markH = h * 0.45;
+    const markW = markH * 0.5;
     const sx = markW / 100;
-    const sy = markH / 150;
+    const sy = markH / 200;
 
     // Opening quote (top-left): flip y so tail points toward top-left corner
     const openQuote = this._transformComma(0, markH, sx, -sy);
