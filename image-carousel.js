@@ -182,6 +182,10 @@ class ImageCarousel extends HTMLElement {
           padding-right: 0;
         }
 
+        .images-wrapper {
+          height: auto;
+        }
+
         .side-image {
           display: none;
         }
@@ -189,12 +193,16 @@ class ImageCarousel extends HTMLElement {
         .center-image {
           max-width: 100%;
           width: 100%;
+          display: flex;
+          justify-content: center;
         }
 
         .center-image img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+          width: auto;
+          max-width: 100%;
+          height: auto;
+          max-height: 56vw;
+          object-fit: contain;
         }
       }
     `;
@@ -230,7 +238,7 @@ class ImageCarousel extends HTMLElement {
         <div class="controls-container">
           <div class="arrow arrow-left" id="prevBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
-               <path d="M0,5 L17,0 A5,5 0 0,0 17,10 Z" />
+               <path d="M0,5 L17,0 A15,15 0 0,0 17,10 Z" />
             </svg>
           </div>
 
@@ -240,7 +248,7 @@ class ImageCarousel extends HTMLElement {
 
           <div class="arrow arrow-right" id="nextBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
-              <path d="M18,5 L1,10 A5,5 0 0,1 1,0 Z" />
+              <path d="M18,5 L1,10 A15,15 0 0,1 1,0 Z" />
             </svg>
           </div>
         </div>
