@@ -73,7 +73,7 @@ class QuoteBox extends HTMLElement {
       </style>
       <div class="container">
         <!-- Top-left quote -->
-        <svg class="quote-open" xmlns="http://www.w3.org/2000/svg" viewBox="10 0 90 125">
+        <svg class="quote-open" xmlns="http://www.w3.org/2000/svg" viewBox="15 5 80 115">
           <path fill="#FCFCFC" d="
             M84.750565,3.319713 
             C76.747787,9.231403 68.238762,14.582113 60.887642,21.215927 
@@ -94,7 +94,7 @@ class QuoteBox extends HTMLElement {
         <slot></slot>
 
         <!-- Bottom-right quote -->
-        <svg class="quote-close" xmlns="http://www.w3.org/2000/svg" viewBox="1316 201 94 128">
+        <svg class="quote-close" xmlns="http://www.w3.org/2000/svg" viewBox="1321 206 84 118">
            <path fill="#FCFCFC" d="
             M1328.468628,327.000000 
             C1333.844238,323.304962 1340.201416,320.208954 1345.399536,315.759125 
