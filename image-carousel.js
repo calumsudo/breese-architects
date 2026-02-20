@@ -248,7 +248,7 @@ class ImageCarousel extends HTMLElement {
 
           <div class="arrow arrow-right" id="nextBtn">
             <svg viewBox="0 0 18 10" width="100%" height="100%">
-              <path d="M18,5 L1,10 A15,15 0 0,1 1,0 Z" />
+              <path d="M18,5 L1,10 A15,15 0 0,0 1,0 Z" />
             </svg>
           </div>
         </div>
