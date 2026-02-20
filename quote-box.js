@@ -55,12 +55,12 @@ class QuoteBox extends HTMLElement {
         
         .quote-open {
           top: 0;
-          left: 6%;
+          left: 3%;
         }
 
         .quote-close {
           bottom: 0;
-          right: 6%;
+          right: 3%;
         }
 
         @media (max-width: 1200px) {
