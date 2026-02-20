@@ -95,7 +95,7 @@ class QuoteBox extends HTMLElement {
         <slot></slot>
 
         <!-- Bottom-right quote -->
-        <svg class="quote-close" xmlns="http://www.w3.org/2000/svg" viewBox="1321 206 84 118">
+        <svg class="quote-close" xmlns="http://www.w3.org/2000/svg" viewBox="1321 206 84 100">
            <path fill="#FCFCFC" d="
             M1328.468628,327.000000 
             C1333.844238,323.304962 1340.201416,320.208954 1345.399536,315.759125 
