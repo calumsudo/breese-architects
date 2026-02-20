@@ -21,7 +21,8 @@ class QuoteBox extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host {
-          display: block;
+          display: flex;
+          flex-direction: column;
           width: 100%;
           min-height: ${parseInt(h, 10)}px;
           background-color: #002a3b;
@@ -29,9 +30,9 @@ class QuoteBox extends HTMLElement {
         .container {
           position: relative;
           width: 100%;
-          height: 100%;
-          padding-left: calc(100vw * 3 / 12);
-          padding-right: calc(100vw * 3 / 12);
+          flex: 1;
+          /* 3/12 columns = 25% padding on both sides relative to container width */
+          padding: 0 25%;
           box-sizing: border-box;
           display: flex;
           align-items: center;
@@ -39,8 +40,8 @@ class QuoteBox extends HTMLElement {
         }
         @media (max-width: 1200px) {
           .container {
-            padding-left: calc(100vw / 12);
-            padding-right: calc(100vw / 12);
+            /* 1/12 columns layout padding */
+            padding: 0 8.333%;
           }
         }
         svg {
@@ -54,26 +55,26 @@ class QuoteBox extends HTMLElement {
         
         .quote-open {
           top: 0;
-          left: calc(100vw * 2 / 12);
+          left: 8.333%;
         }
-        
+
         .quote-close {
           bottom: 0;
-          right: calc(100vw * 2 / 12);
+          right: 8.333%;
         }
 
         @media (max-width: 1200px) {
           .quote-open {
-            left: calc(100vw * 0.5 / 12);
+            left: 2%;
           }
           .quote-close {
-            right: calc(100vw * 0.5 / 12);
+            right: 2%;
           }
         }
       </style>
       <div class="container">
         <!-- Top-left quote -->
-        <svg class="quote-open" xmlns="http://www.w3.org/2000/svg" viewBox="15 5 80 115">
+        <svg class="quote-open" xmlns="http://www.w3.org/2000/svg" viewBox="10 2 90 125">
           <path fill="#FCFCFC" d="
             M84.750565,3.319713 
             C76.747787,9.231403 68.238762,14.582113 60.887642,21.215927 
